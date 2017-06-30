@@ -1002,8 +1002,56 @@ func main() {
 	var manifest Mani
 	json.Unmarshal(file, &manifest)
 
+	type DestinyActivityDefinition struct {
+		ActivityName        string
+		ActivityDescription string
+		Icon                string
+		ActivityLevel       int
+		DestinationHash     int64
+		PlaceHash           int64
+		ActivityTypeHash    int64
+		Rewards             []interface{}
+		Skulls              []interface{}
+	}
+
+	dadMani := make(map[int64]DestinyActivityDefinition)
+
 	fmt.Println("Activity Definitions")
 	for i, e := range manifest.Manifest[0].DestinyActivityDefinition {
+		if i < 1 {
+			var dad DestinyActivityDefinition
+
+			dad.ActivityName = e.ActivityName
+			dad.ActivityDescription = e.ActivityDescription
+			dad.Icon = e.Icon
+			dad.ActivityLevel = e.ActivityLevel
+			dad.DestinationHash = int64(e.DestinationHash)
+			dad.PlaceHash = int64(e.PlaceHash)
+			dad.ActivityTypeHash = int64(e.ActivityTypeHash)
+			dad.Rewards = e.Rewards
+			dad.Skulls = e.Skulls
+
+			dadMani[e.Hash] = dad
+			fmt.Println("dadMani", dadMani[e.Hash])
+		}
+		/*
+			The structure to aim for?
+			"DestinyActivityDefinition": {
+				"hash": {
+					"activityName" string
+					"activityDescription" string
+					"icon" string
+					"activityLevel" int
+					"destinationHash" string
+					"placeHash" string
+					"activityTypeHash" string
+					"rewards" []interface{}
+					"skulls" []interface{}
+				},
+				...
+			}
+		*/
+
 		if i < 10 {
 			fmt.Println(i, e.ActivityName)
 		}
@@ -1012,6 +1060,22 @@ func main() {
 	fmt.Println()
 	fmt.Println("Activity Type Definition")
 	for i, e := range manifest.Manifest[1].DestinyActivityTypeDefinition {
+		/*
+			The structure to aim for?
+			"DestinyActivityTypeDefinition": {
+				"hash": {
+					"identifier" string
+					"activityTypeName" string
+					"activityTypeDescription" string
+					"icon" string
+					// Maybe?
+					"activeBackgroundVirtualPath" string
+					"completedBackgroundVirtualPath" string
+					"tooltipBackgroundVirtualPath" string
+				},
+				...
+			}
+		*/
 		if i < 10 {
 			fmt.Println(i, e.ActivityTypeName)
 		}
@@ -1020,6 +1084,16 @@ func main() {
 	fmt.Println()
 	fmt.Println("Class Definitions")
 	for i, e := range manifest.Manifest[2].DestinyClassDefinition {
+		/*
+			The structure to aim for?
+			"DestinyClassDefinition": {
+				"hash": {
+					"classType" int
+					"className" string
+				},
+				...
+			}
+		*/
 		if i < 10 {
 			fmt.Println(i, e.ClassName)
 		}
@@ -1028,6 +1102,16 @@ func main() {
 	fmt.Println()
 	fmt.Println("Gender Definitions")
 	for i, e := range manifest.Manifest[3].DestinyGenderDefinition {
+		/*
+			The structure to aim for?
+			"DestinyGenderDefinition": {
+				"hash": {
+					"genderType" int
+					"genderName" string
+				},
+				...
+			}
+		*/
 		if i < 10 {
 			fmt.Println(i, e.GenderName)
 		}
