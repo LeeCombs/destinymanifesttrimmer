@@ -1004,31 +1004,41 @@ func main() {
 
 	fmt.Println("Activity Definitions")
 	for i, e := range manifest.Manifest[0].DestinyActivityDefinition {
-		fmt.Println(i, e.ActivityName)
+		if i < 10 {
+			fmt.Println(i, e.ActivityName)
+		}
 	}
 
 	fmt.Println()
 	fmt.Println("Activity Type Definition")
 	for i, e := range manifest.Manifest[1].DestinyActivityTypeDefinition {
-		fmt.Println(i, e.ActivityTypeName)
+		if i < 10 {
+			fmt.Println(i, e.ActivityTypeName)
+		}
 	}
 
 	fmt.Println()
 	fmt.Println("Class Definitions")
 	for i, e := range manifest.Manifest[2].DestinyClassDefinition {
-		fmt.Println(i, e.ClassName)
+		if i < 10 {
+			fmt.Println(i, e.ClassName)
+		}
 	}
 
 	fmt.Println()
 	fmt.Println("Gender Definitions")
 	for i, e := range manifest.Manifest[3].DestinyGenderDefinition {
-		fmt.Println(i, e.GenderName)
+		if i < 10 {
+			fmt.Println(i, e.GenderName)
+		}
 	}
 
 	fmt.Println()
 	fmt.Println("Inventory Bucket Definitions")
 	for i, e := range manifest.Manifest[4].DestinyInventoryBucketDefinition {
-		fmt.Println(i, e.BucketName)
+		if i < 10 {
+			fmt.Println(i, e.BucketName)
+		}
 	}
 
 	fmt.Println()
@@ -1039,129 +1049,252 @@ func main() {
 		}
 	}
 
-	/*
-		// 6
-		DestinyProgressionDefinition []struct {
-		} `json:"DestinyProgressionDefinition"`
+	fmt.Println()
+	fmt.Println("Progression Definitions")
+	for i, e := range manifest.Manifest[6].DestinyProgressionDefinition {
+		if i < 10 {
+			fmt.Println(i, e.Name)
+		}
+	}
 
-		// 7
-		DestinyRaceDefinition []struct {
-		} `json:"DestinyRaceDefinition"`
+	fmt.Println()
+	fmt.Println("Race Definitions")
+	for i, e := range manifest.Manifest[7].DestinyRaceDefinition {
+		if i < 10 {
+			fmt.Println(i, e.RaceName)
+		}
+	}
 
-		// 8
-		DestinyTalentGridDefinition []struct {
-		} `json:"DestinyTalentGridDefinition"`
+	fmt.Println()
+	fmt.Println("Talent Grid Definitions")
+	for i, e := range manifest.Manifest[8].DestinyTalentGridDefinition {
+		if i < 10 {
+			fmt.Println(i, e.Hash)
+		}
+	}
 
-		// 9
-		DestinyUnlockFlagDefinition []struct {
-		} `json:"DestinyUnlockFlagDefinition"`
+	fmt.Println()
+	fmt.Println("Unlock Flag Definitions")
+	for i, e := range manifest.Manifest[9].DestinyUnlockFlagDefinition {
+		if i < 10 {
+			fmt.Println(i, e.DisplayDescription)
+		}
+	}
 
-		// 10
-		DestinyVendorDefinition []struct {
-		} `json:"DestinyVendorDefinition"`
+	fmt.Println()
+	fmt.Println("Vendor Definitions")
+	for i, e := range manifest.Manifest[10].DestinyVendorDefinition {
+		if i < 10 {
+			fmt.Println(i, e.Summary.VendorName)
+		}
+	}
 
-		// 11
-		DestinyHistoricalStatsDefinition []struct {
-		} `json:"DestinyHistoricalStatsDefinition"`
+	fmt.Println()
+	fmt.Println("Historical Stats Definitions")
+	for i, e := range manifest.Manifest[11].DestinyHistoricalStatsDefinition {
+		if i < 10 {
+			fmt.Println(i, e.StatName)
+		}
+	}
 
-		// 12
-		DestinyDirectorBookDefinition []struct {
-		} `json:"DestinyDirectorBookDefinition"`
+	fmt.Println()
+	fmt.Println("Director Book Definitions")
+	for i, e := range manifest.Manifest[12].DestinyDirectorBookDefinition {
+		if i < 10 {
+			fmt.Println(i, e.BookName)
+		}
+	}
 
-		// 13
-		DestinyStatDefinition []struct {
-		} `json:"DestinyStatDefinition"`
+	fmt.Println()
+	fmt.Println("Stat Definitions")
+	for i, e := range manifest.Manifest[13].DestinyStatDefinition {
+		if i < 10 {
+			fmt.Println(i, e.StatName)
+		}
+	}
 
-		// 14
-		DestinySandboxPerkDefinition []struct {
-		} `json:"DestinySandboxPerkDefinition"`
+	fmt.Println()
+	fmt.Println("Sandbox Perk Definitions")
+	for i, e := range manifest.Manifest[14].DestinySandboxPerkDefinition {
+		if i < 10 {
+			fmt.Println(i, e.DisplayName)
+		}
+	}
 
-		// 15
-		DestinyDestinationDefinition []struct {
-		} `json:"DestinyDestinationDefinition"`
+	fmt.Println()
+	fmt.Println("Destination Definitions")
+	for i, e := range manifest.Manifest[15].DestinyDestinationDefinition {
+		if i < 10 {
+			fmt.Println(i, e.DestinationName)
+		}
+	}
 
-		// 16
-		DestinyPlaceDefinition []struct {
-		} `json:"DestinyPlaceDefinition"`
+	fmt.Println()
+	fmt.Println("Place Definitions")
+	for i, e := range manifest.Manifest[16].DestinyPlaceDefinition {
+		if i < 10 {
+			fmt.Println(i, e.PlaceName)
+		}
+	}
 
-		// 17
-		DestinyActivityBundleDefinition []struct {
-		} `json:"DestinyActivityBundleDefinition"`
+	fmt.Println()
+	fmt.Println("Activity Bundle Definitions")
+	for i, e := range manifest.Manifest[17].DestinyActivityBundleDefinition {
+		if i < 10 {
+			fmt.Println(i, e.ActivityName)
+		}
+	}
 
-		// 18
-		DestinyStatGroupDefinition []struct {
-		} `json:"DestinyStatGroupDefinition"`
+	fmt.Println()
+	fmt.Println("Stat Group Definitions")
+	for i, e := range manifest.Manifest[18].DestinyStatGroupDefinition {
+		if i < 10 {
+			fmt.Println(i, e.Hash)
+		}
+	}
 
-		// 19
-		DestinySpecialEventDefinition []struct {
-		} `json:"DestinySpecialEventDefinition"`
+	fmt.Println()
+	fmt.Println("Special Event Definitions")
+	for i, e := range manifest.Manifest[19].DestinySpecialEventDefinition {
+		if i < 10 {
+			fmt.Println(i, e.EventIdentifier)
+		}
+	}
 
-		// 20
-		DestinyFactionDefinition []struct {
-		} `json:"DestinyFactionDefinition"`
+	fmt.Println()
+	fmt.Println("Faction Definitions")
+	for i, e := range manifest.Manifest[20].DestinyFactionDefinition {
+		if i < 10 {
+			fmt.Println(i, e.FactionName)
+		}
+	}
 
-		// 21
-		DestinyVendorCategoryDefinition []struct {
-		} `json:"DestinyVendorCategoryDefinition"`
+	fmt.Println()
+	fmt.Println("Vendor Category Definitions")
+	for i, e := range manifest.Manifest[21].DestinyVendorCategoryDefinition {
+		if i < 10 {
+			fmt.Println(i, e.CategoryName)
+		}
+	}
 
-		// 22
-		DestinyEnemyRaceDefinition []struct {
-		} `json:"DestinyEnemyRaceDefinition"`
+	fmt.Println()
+	fmt.Println("Enemy Race Definitions")
+	for i, e := range manifest.Manifest[22].DestinyEnemyRaceDefinition {
+		if i < 10 {
+			fmt.Println(i, e.RaceName)
+		}
+	}
 
-		// 23
-		DestinyScriptedSkullDefinition []struct {
-		} `json:"DestinyScriptedSkullDefinition"`
+	fmt.Println()
+	fmt.Println("Scripted Skull Definitions")
+	for i, e := range manifest.Manifest[23].DestinyScriptedSkullDefinition {
+		if i < 10 {
+			fmt.Println(i, e.SkullName)
+		}
+	}
 
-		// 24
-		DestinyTriumphSetDefinition []struct {
-		} `json:"DestinyTriumphSetDefinition"`
+	fmt.Println()
+	fmt.Println("Triumph Set Definitions")
+	for i, e := range manifest.Manifest[24].DestinyTriumphSetDefinition {
+		if i < 10 {
+			fmt.Println(i, e.Title)
+		}
+	}
 
-		// 25
-		DestinyItemCategoryDefinition []struct {
-		} `json:"DestinyItemCategoryDefinition"`
+	fmt.Println()
+	fmt.Println("Item Category Definitions")
+	for i, e := range manifest.Manifest[25].DestinyItemCategoryDefinition {
+		if i < 10 {
+			fmt.Println(i, e.Identifier)
+		}
+	}
 
-		// 26
-		DestinyRewardSourceDefinition []struct {
-		} `json:"DestinyRewardSourceDefinition"`
+	fmt.Println()
+	fmt.Println("Reward Source Definitions")
+	for i, e := range manifest.Manifest[26].DestinyRewardSourceDefinition {
+		if i < 10 {
+			fmt.Println(i, e.SourceName)
+		}
+	}
 
-		// 27
-		DestinyObjectiveDefinition []struct {
-		} `json:"DestinyObjectiveDefinition"`
+	fmt.Println()
+	fmt.Println("Objective Definitions")
+	for i, e := range manifest.Manifest[27].DestinyObjectiveDefinition {
+		if i < 10 {
+			fmt.Println(i, e.DisplayDescription)
+		}
+	}
 
-		// 28
-		DestinyDamageTypeDefinition []struct {
-		} `json:"DestinyDamageTypeDefinition"`
+	fmt.Println()
+	fmt.Println("Damage Type Definitions")
+	for i, e := range manifest.Manifest[28].DestinyDamageTypeDefinition {
+		if i < 10 {
+			fmt.Println(i, e.DamageTypeName)
+		}
+	}
 
-		// 29
-		DestinyCombatantDefinition []struct {
-		} `json:"DestinyCombatantDefinition"`
+	fmt.Println()
+	fmt.Println("Combatant Definitions")
+	for i, e := range manifest.Manifest[29].DestinyCombatantDefinition {
+		if i < 10 {
+			fmt.Println(i, e.CombatantName)
+		}
+	}
 
-		// 30
-		DestinyActivityCategoryDefinition []struct {
-		} `json:"DestinyActivityCategoryDefinition"`
+	fmt.Println()
+	fmt.Println("Activity Category Definitions")
+	for i, e := range manifest.Manifest[30].DestinyActivityCategoryDefinition {
+		if i < 10 {
+			fmt.Println(i, e.Identifier)
+		}
+	}
 
-		// 31
-		DestinyRecordDefinition []struct {
-		} `json:"DestinyRecordDefinition"`
+	fmt.Println()
+	fmt.Println("Record Definitions")
+	for i, e := range manifest.Manifest[31].DestinyRecordDefinition {
+		if i < 10 {
+			fmt.Println(i, e.DisplayName)
+		}
+	}
 
-		// 32
-		DestinyRecordBookDefinition []struct {
-		} `json:"DestinyRecordBookDefinition"`
+	fmt.Println()
+	fmt.Println("Record Book Definitions")
+	for i, e := range manifest.Manifest[32].DestinyRecordBookDefinition {
+		if i < 10 {
+			fmt.Println(i, e.DisplayName)
+		}
+	}
 
-		// 33
-		DestinyBondDefinition []struct {
-		} `json:"DestinyBondDefinition"`
+	fmt.Println()
+	fmt.Println("Bond Definitions")
+	for i, e := range manifest.Manifest[33].DestinyBondDefinition {
+		if i < 10 {
+			fmt.Println(i, e.Hash)
+		}
+	}
 
-		// 34
-		DestinyLocationDefinition []struct {
-		} `json:"DestinyLocationDefinition"`
+	fmt.Println()
+	fmt.Println("Location Definitions")
+	for i, e := range manifest.Manifest[34].DestinyLocationDefinition {
+		if i < 10 {
+			fmt.Println(i, e.Hash)
+		}
+	}
 
-		// 35
-		DestinyGrimoireDefinition []struct {
-		} `json:"DestinyGrimoireDefinition"`
+	fmt.Println()
+	fmt.Println("Grimoire Definitions")
+	for i, _ := range manifest.Manifest[35].DestinyGrimoireDefinition {
+		if i < 10 {
+			fmt.Println(i)
+			// fmt.Println(i, e.ThemeCollection)
+		}
+	}
 
-		// 36
-		DestinyGrimoireCardDefinition []struct {
-		} `json:"DestinyGrimoireCardDefinition"`
-	*/
+	fmt.Println()
+	fmt.Println("Grimoire Card Definitions")
+	for i, e := range manifest.Manifest[36].DestinyGrimoireCardDefinition {
+		if i < 10 {
+			fmt.Println(i, e.CardName)
+		}
+	}
 }
