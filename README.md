@@ -1,4 +1,4 @@
-# destinymanifesttrimmer
+# Destiny Manifest Trimmer
 
 Tool that will trim and transform the full DestinyManifest.json into a different format.
 
