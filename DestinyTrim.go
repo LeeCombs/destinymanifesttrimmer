@@ -1065,6 +1065,36 @@ type MiniDestinyInventoryItemDefinition struct {
 	// SourceHashes        []int64
 }
 
+type MiniDestinyProgressionDefinition struct {
+	Name        string
+	Scope       int // Figure out what this is for
+	Steps       []interface{}
+	Visible     bool
+	Icon        string
+	Description string
+	Source      string
+}
+
+type MiniDestinyRaceDefinition struct {
+	RaceType        int
+	RaceName        string
+	RaceNameMale    string
+	RaceNameFemale  string
+	RaceDescription string
+}
+
+// Note -- No clue about this one, so it's pretty empty for now
+type MiniDestinyTalentGridDefinition struct {
+	ProgressionHash int64
+	Nodes           []interface{}
+}
+
+// Note -- No clue about this one, so it's pretty empty for now
+type MiniDestinyUnlockFlagDefinition struct {
+	DisplayName        string
+	DisplayDescription string
+}
+
 //////////
 // Main //
 //////////
@@ -1085,7 +1115,7 @@ func main() {
 	miniMani := make(map[string]interface{})
 
 	// Start going through the manifest data, transform it into our structs, and build the output
-	fmt.Println("Activity Definitions")
+	fmt.Printf("Activity Definitions... ")
 	mdadMap := make(map[int64]MiniDestinyActivityDefinition)
 	for _, e := range manifest.Manifest[0].DestinyActivityDefinition {
 		var mdad MiniDestinyActivityDefinition
@@ -1103,8 +1133,9 @@ func main() {
 		mdadMap[e.Hash] = mdad
 	}
 	miniMani["DestinyActivityDefinition"] = mdadMap
+	fmt.Printf("Done: %d\n", len(mdadMap))
 
-	fmt.Println("Activity Type Definition")
+	fmt.Printf("Activity Type Definitions... ")
 	mdatdMap := make(map[int64]MiniDestinyActivityTypeDefinition)
 	for _, e := range manifest.Manifest[1].DestinyActivityTypeDefinition {
 		var mdatd MiniDestinyActivityTypeDefinition
@@ -1117,8 +1148,9 @@ func main() {
 		mdatdMap[e.Hash] = mdatd
 	}
 	miniMani["DestinyActivityTypeDefinition"] = mdatdMap
+	fmt.Printf("Done: %d\n", len(mdatdMap))
 
-	fmt.Println("Class Definitions")
+	fmt.Printf("Class Definitions... ")
 	mdcdMap := make(map[int64]MiniDestinyClassDefinition)
 	for _, e := range manifest.Manifest[2].DestinyClassDefinition {
 		var mdcd MiniDestinyClassDefinition
@@ -1129,8 +1161,9 @@ func main() {
 		mdcdMap[e.Hash] = mdcd
 	}
 	miniMani["DestinyClassDefinition"] = mdcdMap
+	fmt.Printf("Done: %d\n", len(mdcdMap))
 
-	fmt.Println("Gender Definitions")
+	fmt.Printf("Gender Definitions... ")
 	mdgdMap := make(map[int64]MiniDestinyGenderDefinition)
 	for _, e := range manifest.Manifest[3].DestinyGenderDefinition {
 		var mdgd MiniDestinyGenderDefinition
@@ -1141,8 +1174,9 @@ func main() {
 		mdgdMap[e.Hash] = mdgd
 	}
 	miniMani["DestinyGenderDefinition"] = mdgdMap
+	fmt.Printf("Done: %d\n", len(mdgdMap))
 
-	fmt.Println("Inventory Bucket Definitions")
+	fmt.Printf("Inventory Bucket Definitions... ")
 	mibdMap := make(map[int64]MiniDestinyInventoryBucketDefinition)
 	for _, e := range manifest.Manifest[4].DestinyInventoryBucketDefinition {
 		var mibd MiniDestinyInventoryBucketDefinition
@@ -1158,8 +1192,9 @@ func main() {
 		mibdMap[e.Hash] = mibd
 	}
 	miniMani["DestinyInventoryBucketDefinition"] = mibdMap
+	fmt.Printf("Done: %d\n", len(mibdMap))
 
-	fmt.Println("Inventory Item Definitions")
+	fmt.Printf("Inventory Item Definitions... ")
 	mdiibMap := make(map[int64]MiniDestinyInventoryItemDefinition)
 	for _, e := range manifest.Manifest[5].DestinyInventoryItemDefinition {
 		var mdiib MiniDestinyInventoryItemDefinition
@@ -1178,47 +1213,74 @@ func main() {
 		mdiib.BucketTypeHash = int64(e.BucketTypeHash)
 		mdiib.PrimaryBaseStatHash = int64(e.PrimaryBaseStatHash)
 		mdiib.Stats = e.Stats
-		// mdiib.ItemCategoryHashes = []int64(e.ItemCategoryHashes)
-		// mdiib.SourceHashes = e.SourceHashes
 		mdiib.Exclusive = e.Exclusive
 
 		mdiibMap[e.Hash] = mdiib
 	}
 	miniMani["DestinyInventoryItemDefinition"] = mdiibMap
+	fmt.Printf("Done: %d\n", len(mdiibMap))
+
+	fmt.Printf("Progression Definitions... ")
+	mdpdMap := make(map[int64]MiniDestinyProgressionDefinition)
+	for _, e := range manifest.Manifest[6].DestinyProgressionDefinition {
+		var mdpd MiniDestinyProgressionDefinition
+
+		mdpd.Name = e.Name
+		mdpd.Scope = e.Scope
+		// mdpd.Steps = e.Steps
+		mdpd.Visible = e.Visible
+		mdpd.Icon = e.Icon
+		mdpd.Description = e.Description
+		mdpd.Source = e.Source
+
+		mdpdMap[e.Hash] = mdpd
+	}
+	miniMani["DestinyProgressionDefinition"] = mdpdMap
+	fmt.Printf("Done: %d\n", len(mdpdMap))
+
+	fmt.Printf("Race Definitions... ")
+	mdrdMap := make(map[int64]MiniDestinyRaceDefinition)
+	for _, e := range manifest.Manifest[7].DestinyRaceDefinition {
+		var mdrd MiniDestinyRaceDefinition
+
+		mdrd.RaceType = e.RaceType
+		mdrd.RaceName = e.RaceName
+		mdrd.RaceNameMale = e.RaceNameMale
+		mdrd.RaceNameFemale = e.RaceNameFemale
+		mdrd.RaceDescription = e.RaceDescription
+
+		mdrdMap[e.Hash] = mdrd
+	}
+	miniMani["DestinyRaceDefinition"] = mdrdMap
+	fmt.Printf("Done: %d\n", len(mdrdMap))
+
+	fmt.Printf("Talent Grid Definitions... ")
+	mtgdMap := make(map[int64]MiniDestinyTalentGridDefinition)
+	for _, e := range manifest.Manifest[8].DestinyTalentGridDefinition {
+		var mtdg MiniDestinyTalentGridDefinition
+
+		mtdg.ProgressionHash = int64(e.ProgressionHash)
+		mtdg.Nodes = e.Nodes
+
+		mtgdMap[e.Hash] = mtdg
+	}
+	miniMani["DestinyTalentGridDefinition"] = mtgdMap
+	fmt.Printf("Done: %d\n", len(mtgdMap))
+
+	fmt.Printf("Unlock Flag Definitions... ")
+	mdufdMap := make(map[int64]MiniDestinyUnlockFlagDefinition)
+	for _, e := range manifest.Manifest[9].DestinyUnlockFlagDefinition {
+		var mdufd MiniDestinyUnlockFlagDefinition
+
+		mdufd.DisplayName = e.DisplayName
+		mdufd.DisplayDescription = e.DisplayDescription
+
+		mdufdMap[e.Hash] = mdufd
+	}
+	miniMani["DestinyTalentGridDefinition"] = mdufdMap
+	fmt.Printf("Done: %d\n", len(mdufdMap))
 
 	// Continue Here
-
-	fmt.Println()
-	fmt.Println("Progression Definitions")
-	for i, e := range manifest.Manifest[6].DestinyProgressionDefinition {
-		if i < 10 {
-			fmt.Println(i, e.Name)
-		}
-	}
-
-	fmt.Println()
-	fmt.Println("Race Definitions")
-	for i, e := range manifest.Manifest[7].DestinyRaceDefinition {
-		if i < 10 {
-			fmt.Println(i, e.RaceName)
-		}
-	}
-
-	fmt.Println()
-	fmt.Println("Talent Grid Definitions")
-	for i, e := range manifest.Manifest[8].DestinyTalentGridDefinition {
-		if i < 10 {
-			fmt.Println(i, e.Hash)
-		}
-	}
-
-	fmt.Println()
-	fmt.Println("Unlock Flag Definitions")
-	for i, e := range manifest.Manifest[9].DestinyUnlockFlagDefinition {
-		if i < 10 {
-			fmt.Println(i, e.DisplayDescription)
-		}
-	}
 
 	fmt.Println()
 	fmt.Println("Vendor Definitions")
