@@ -25,14 +25,14 @@ type Mani struct {
 			ReleaseIcon         string        `json:"releaseIcon"`
 			ReleaseTime         int           `json:"releaseTime"`
 			ActivityLevel       int           `json:"activityLevel"`
-			CompletionFlagHash  int           `json:"completionFlagHash"`
+			CompletionFlagHash  int64         `json:"completionFlagHash"`
 			ActivityPower       float64       `json:"activityPower"`
 			MinParty            int           `json:"minParty"`
 			MaxParty            int           `json:"maxParty"`
 			MaxPlayers          int           `json:"maxPlayers"`
 			DestinationHash     int64         `json:"destinationHash"`
 			PlaceHash           int64         `json:"placeHash"`
-			ActivityTypeHash    int           `json:"activityTypeHash"`
+			ActivityTypeHash    int64         `json:"activityTypeHash"`
 			Tier                int           `json:"tier"`
 			PgcrImage           string        `json:"pgcrImage"`
 			Rewards             []interface{} `json:"rewards"`
@@ -137,37 +137,37 @@ type Mani struct {
 			} `json:"stats"`
 			PerkHashes      []interface{} `json:"perkHashes"`
 			SpecialItemType int           `json:"specialItemType"`
-			TalentGridHash  int           `json:"talentGridHash"`
+			TalentGridHash  int64         `json:"talentGridHash"`
 			EquippingBlock  struct {
 				WeaponSandboxPatternIndex int `json:"weaponSandboxPatternIndex"`
 				GearArtArrangementIndex   int `json:"gearArtArrangementIndex"`
 				DefaultDyes               []struct {
-					ChannelHash int `json:"channelHash"`
-					DyeHash     int `json:"dyeHash"`
+					ChannelHash int64 `json:"channelHash"`
+					DyeHash     int64 `json:"dyeHash"`
 				} `json:"defaultDyes"`
 				LockedDyes          []interface{} `json:"lockedDyes"`
 				CustomDyes          []interface{} `json:"customDyes"`
 				CustomDyeExpression struct {
 					Steps []struct {
-						StepOperator int `json:"stepOperator"`
-						FlagHash     int `json:"flagHash"`
-						ValueHash    int `json:"valueHash"`
-						Value        int `json:"value"`
+						StepOperator int   `json:"stepOperator"`
+						FlagHash     int64 `json:"flagHash"`
+						ValueHash    int64 `json:"valueHash"`
+						Value        int   `json:"value"`
 					} `json:"steps"`
 				} `json:"customDyeExpression"`
-				WeaponPatternHash int `json:"weaponPatternHash"`
+				WeaponPatternHash int64 `json:"weaponPatternHash"`
 				Arrangements      []struct {
-					ClassHash               int `json:"classHash"`
-					GearArtArrangementIndex int `json:"gearArtArrangementIndex"`
+					ClassHash               int64 `json:"classHash"`
+					GearArtArrangementIndex int   `json:"gearArtArrangementIndex"`
 				} `json:"arrangements"`
 			} `json:"equippingBlock,omitempty"`
 			HasGeometry    bool  `json:"hasGeometry"`
-			StatGroupHash  int   `json:"statGroupHash"`
+			StatGroupHash  int64 `json:"statGroupHash"`
 			ItemLevels     []int `json:"itemLevels"`
 			QualityLevel   int   `json:"qualityLevel"`
 			Equippable     bool  `json:"equippable"`
 			Instanced      bool  `json:"instanced"`
-			RewardItemHash int   `json:"rewardItemHash"`
+			RewardItemHash int64 `json:"rewardItemHash"`
 			Values         struct {
 			} `json:"values"`
 			ItemType                     int           `json:"itemType"`
@@ -181,12 +181,12 @@ type Mani struct {
 			ItemIndex                    int           `json:"itemIndex"`
 			SetItemHashes                []interface{} `json:"setItemHashes"`
 			TooltipStyle                 string        `json:"tooltipStyle"`
-			QuestlineItemHash            int           `json:"questlineItemHash"`
+			QuestlineItemHash            int64         `json:"questlineItemHash"`
 			NeedsFullCompletion          bool          `json:"needsFullCompletion"`
 			ObjectiveHashes              []interface{} `json:"objectiveHashes"`
 			AllowActions                 bool          `json:"allowActions"`
-			QuestTrackingUnlockValueHash int           `json:"questTrackingUnlockValueHash"`
-			BountyResetUnlockHash        int           `json:"bountyResetUnlockHash"`
+			QuestTrackingUnlockValueHash int64         `json:"questTrackingUnlockValueHash"`
+			BountyResetUnlockHash        int64         `json:"bountyResetUnlockHash"`
 			UniquenessHash               int64         `json:"uniquenessHash"`
 			ShowActiveNodesInTooltip     bool          `json:"showActiveNodesInTooltip"`
 			Hash                         int64         `json:"hash"`
@@ -201,16 +201,16 @@ type Mani struct {
 				Exclusivity      int `json:"exclusivity"`
 				ComputedStats    struct {
 					Num144602215 struct {
-						StatHash int `json:"statHash"`
-						Value    int `json:"value"`
-						Minimum  int `json:"minimum"`
-						Maximum  int `json:"maximum"`
+						StatHash int64 `json:"statHash"`
+						Value    int   `json:"value"`
+						Minimum  int   `json:"minimum"`
+						Maximum  int   `json:"maximum"`
 					} `json:"144602215"`
 					Num1735777505 struct {
-						StatHash int `json:"statHash"`
-						Value    int `json:"value"`
-						Minimum  int `json:"minimum"`
-						Maximum  int `json:"maximum"`
+						StatHash int64 `json:"statHash"`
+						Value    int   `json:"value"`
+						Minimum  int   `json:"minimum"`
+						Maximum  int   `json:"maximum"`
 					} `json:"1735777505"`
 					Num2391494160 struct {
 						StatHash int64 `json:"statHash"`
@@ -272,7 +272,7 @@ type Mani struct {
 			GridHash               int64         `json:"gridHash"`
 			MaxGridLevel           int           `json:"maxGridLevel"`
 			GridLevelPerColumn     int           `json:"gridLevelPerColumn"`
-			ProgressionHash        int           `json:"progressionHash"`
+			ProgressionHash        int64         `json:"progressionHash"`
 			Nodes                  []interface{} `json:"nodes"`
 			CalcMaxGridLevel       int           `json:"calcMaxGridLevel"`
 			CalcProgressToMaxLevel int           `json:"calcProgressToMaxLevel"`
@@ -301,7 +301,7 @@ type Mani struct {
 				VendorDescription        string        `json:"vendorDescription"`
 				VendorIcon               string        `json:"vendorIcon"`
 				VendorOrder              int           `json:"vendorOrder"`
-				FactionHash              int           `json:"factionHash"`
+				FactionHash              int64         `json:"factionHash"`
 				ResetIntervalMinutes     int           `json:"resetIntervalMinutes"`
 				ResetOffsetMinutes       int           `json:"resetOffsetMinutes"`
 				VendorIdentifier         string        `json:"vendorIdentifier"`
@@ -309,7 +309,7 @@ type Mani struct {
 				PositionY                int           `json:"positionY"`
 				TransitionNodeIdentifier string        `json:"transitionNodeIdentifier"`
 				Visible                  bool          `json:"visible"`
-				ProgressionHash          int           `json:"progressionHash"`
+				ProgressionHash          int64         `json:"progressionHash"`
 				SellString               string        `json:"sellString"`
 				BuyString                string        `json:"buyString"`
 				VendorPortrait           string        `json:"vendorPortrait"`
@@ -320,17 +320,17 @@ type Mani struct {
 				MapSectionName           string        `json:"mapSectionName"`
 				MapSectionOrder          int           `json:"mapSectionOrder"`
 				ShowOnMap                bool          `json:"showOnMap"`
-				EventHash                int           `json:"eventHash"`
-				VendorCategoryHash       int           `json:"vendorCategoryHash"`
+				EventHash                int64         `json:"eventHash"`
+				VendorCategoryHash       int64         `json:"vendorCategoryHash"`
 				VendorCategoryHashes     []int         `json:"vendorCategoryHashes"`
-				VendorSubcategoryHash    int           `json:"vendorSubcategoryHash"`
+				VendorSubcategoryHash    int64         `json:"vendorSubcategoryHash"`
 				InhibitBuying            bool          `json:"inhibitBuying"`
 			} `json:"summary"`
 			AcceptedItems []interface{} `json:"acceptedItems"`
 			Categories    []struct {
 				CategoryHash            int64  `json:"categoryHash"`
 				DisplayTitle            string `json:"displayTitle"`
-				OverlayCurrencyItemHash int    `json:"overlayCurrencyItemHash"`
+				OverlayCurrencyItemHash int64  `json:"overlayCurrencyItemHash"`
 				QuantityAvailable       int    `json:"quantityAvailable"`
 				ShowUnavailableItems    bool   `json:"showUnavailableItems"`
 				HideIfNoCurrency        bool   `json:"hideIfNoCurrency"`
@@ -342,7 +342,7 @@ type Mani struct {
 				HideFromRegularPurchase bool   `json:"hideFromRegularPurchase"`
 			} `json:"categories"`
 			FailureStrings  []interface{} `json:"failureStrings"`
-			UnlockValueHash int           `json:"unlockValueHash"`
+			UnlockValueHash int64         `json:"unlockValueHash"`
 			Hash            int64         `json:"hash"`
 			Index           int           `json:"index"`
 		} `json:"DestinyVendorDefinition"`
@@ -369,8 +369,8 @@ type Mani struct {
 			BookDescription string `json:"bookDescription"`
 			BookNumber      string `json:"bookNumber,omitempty"`
 			Nodes           []struct {
-				NodeDefinitionHash   int     `json:"nodeDefinitionHash"`
-				StyleHash            int     `json:"styleHash"`
+				NodeDefinitionHash   int64   `json:"nodeDefinitionHash"`
+				StyleHash            int64   `json:"styleHash"`
 				PositionX            int     `json:"positionX"`
 				PositionY            int     `json:"positionY"`
 				PositionZ            int     `json:"positionZ"`
@@ -390,11 +390,11 @@ type Mani struct {
 				Steps []struct {
 					StepOperator int   `json:"stepOperator"`
 					FlagHash     int64 `json:"flagHash"`
-					ValueHash    int   `json:"valueHash"`
+					ValueHash    int64 `json:"valueHash"`
 					Value        int   `json:"value"`
 				} `json:"steps"`
 			} `json:"isVisibleExpression"`
-			DestinationHash int   `json:"destinationHash"`
+			DestinationHash int64 `json:"destinationHash"`
 			Hash            int64 `json:"hash"`
 			Index           int   `json:"index"`
 		} `json:"DestinyDirectorBookDefinition"`
@@ -463,7 +463,7 @@ type Mani struct {
 			ReleaseTime         int     `json:"releaseTime"`
 			DestinationHash     int64   `json:"destinationHash"`
 			PlaceHash           int64   `json:"placeHash"`
-			ActivityTypeHash    int     `json:"activityTypeHash"`
+			ActivityTypeHash    int64   `json:"activityTypeHash"`
 			ActivityHashes      []int64 `json:"activityHashes"`
 			Hash                int64   `json:"hash"`
 			Index               int     `json:"index"`
@@ -475,9 +475,9 @@ type Mani struct {
 			MaximumValue  int   `json:"maximumValue"`
 			UIPosition    int   `json:"uiPosition"`
 			ScaledStats   []struct {
-				StatHash             int  `json:"statHash"`
-				MaximumValue         int  `json:"maximumValue"`
-				DisplayAsNumeric     bool `json:"displayAsNumeric"`
+				StatHash             int64 `json:"statHash"`
+				MaximumValue         int   `json:"maximumValue"`
+				DisplayAsNumeric     bool  `json:"displayAsNumeric"`
 				DisplayInterpolation []struct {
 					Value  int `json:"value"`
 					Weight int `json:"weight"`
@@ -485,13 +485,13 @@ type Mani struct {
 			} `json:"scaledStats"`
 			Overrides struct {
 				Num144602215 struct {
-					StatHash           int    `json:"statHash"`
+					StatHash           int64  `json:"statHash"`
 					DisplayName        string `json:"displayName"`
 					DisplayDescription string `json:"displayDescription"`
 					DisplayIcon        string `json:"displayIcon"`
 				} `json:"144602215"`
 				Num1735777505 struct {
-					StatHash           int    `json:"statHash"`
+					StatHash           int64  `json:"statHash"`
 					DisplayName        string `json:"displayName"`
 					DisplayDescription string `json:"displayDescription"`
 					DisplayIcon        string `json:"displayIcon"`
@@ -509,7 +509,7 @@ type Mani struct {
 
 		// 19
 		DestinySpecialEventDefinition []struct {
-			EventHash               int           `json:"eventHash"`
+			EventHash               int64         `json:"eventHash"`
 			EventIdentifier         string        `json:"eventIdentifier"`
 			BackgroundImageWeb      string        `json:"backgroundImageWeb"`
 			Title                   string        `json:"title"`
@@ -520,17 +520,17 @@ type Mani struct {
 			ShowNagMessage          bool          `json:"showNagMessage"`
 			ReturnInActivityAdvisor bool          `json:"returnInActivityAdvisor"`
 			ProgressionHash         int64         `json:"progressionHash"`
-			VendorHash              int           `json:"vendorHash"`
+			VendorHash              int64         `json:"vendorHash"`
 			FactionHash             int64         `json:"factionHash"`
 			BackgroundImageMobile   string        `json:"backgroundImageMobile,omitempty"`
-			ActiveUnlockValueHash   int           `json:"activeUnlockValueHash"`
+			ActiveUnlockValueHash   int64         `json:"activeUnlockValueHash"`
 			BountyHashes            []interface{} `json:"bountyHashes"`
 			QuestHashes             []interface{} `json:"questHashes"`
 			FriendlyIdentifier      string        `json:"friendlyIdentifier"`
 			RecruitmentIds          []string      `json:"recruitmentIds"`
-			PlaylistActivityHash    int           `json:"playlistActivityHash,omitempty"`
-			UnlockEventHash         int           `json:"unlockEventHash"`
-			Hash                    int           `json:"hash"`
+			PlaylistActivityHash    int64         `json:"playlistActivityHash,omitempty"`
+			UnlockEventHash         int64         `json:"unlockEventHash"`
+			Hash                    int64         `json:"hash"`
 			Index                   int           `json:"index"`
 		} `json:"DestinySpecialEventDefinition"`
 
@@ -547,12 +547,12 @@ type Mani struct {
 
 		// 21
 		DestinyVendorCategoryDefinition []struct {
-			CategoryHash     int    `json:"categoryHash"`
+			CategoryHash     int64  `json:"categoryHash"`
 			Order            int    `json:"order"`
 			CategoryName     string `json:"categoryName"`
 			MobileBannerPath string `json:"mobileBannerPath"`
 			Identifier       string `json:"identifier"`
-			Hash             int    `json:"hash"`
+			Hash             int64  `json:"hash"`
 			Index            int    `json:"index"`
 		} `json:"DestinyVendorCategoryDefinition"`
 
@@ -569,18 +569,18 @@ type Mani struct {
 
 		// 23
 		DestinyScriptedSkullDefinition []struct {
-			SkullHash   int    `json:"skullHash"`
+			SkullHash   int64  `json:"skullHash"`
 			Identifier  string `json:"identifier"`
 			SkullName   string `json:"skullName"`
 			Description string `json:"description"`
 			IconPath    string `json:"iconPath"`
-			Hash        int    `json:"hash"`
+			Hash        int64  `json:"hash"`
 			Index       int    `json:"index"`
 		} `json:"DestinyScriptedSkullDefinition"`
 
 		// 24
 		DestinyTriumphSetDefinition []struct {
-			TriumphSetHash     int       `json:"triumphSetHash"`
+			TriumphSetHash     int64     `json:"triumphSetHash"`
 			Identifier         string    `json:"identifier"`
 			Order              int       `json:"order"`
 			Title              string    `json:"title"`
@@ -601,15 +601,15 @@ type Mani struct {
 				MinimumProgress int    `json:"minimumProgress"`
 				MaximumProgress int    `json:"maximumProgress"`
 			} `json:"triumphs"`
-			IsRecordBook       bool `json:"isRecordBook"`
-			LockdownUnlockHash int  `json:"lockdownUnlockHash"`
-			Hash               int  `json:"hash"`
-			Index              int  `json:"index"`
+			IsRecordBook       bool  `json:"isRecordBook"`
+			LockdownUnlockHash int64 `json:"lockdownUnlockHash"`
+			Hash               int64 `json:"hash"`
+			Index              int   `json:"index"`
 		} `json:"DestinyTriumphSetDefinition"`
 
 		// 25
 		DestinyItemCategoryDefinition []struct {
-			ItemCategoryHash     int    `json:"itemCategoryHash"`
+			ItemCategoryHash     int64  `json:"itemCategoryHash"`
 			Identifier           string `json:"identifier"`
 			Visible              bool   `json:"visible"`
 			Title                string `json:"title"`
@@ -618,7 +618,7 @@ type Mani struct {
 			GrantDestinyItemType int    `json:"grantDestinyItemType"`
 			GrantDestinySubType  int    `json:"grantDestinySubType"`
 			GrantDestinyClass    int    `json:"grantDestinyClass"`
-			Hash                 int    `json:"hash"`
+			Hash                 int64  `json:"hash"`
 			Index                int    `json:"index"`
 		} `json:"DestinyItemCategoryDefinition"`
 
@@ -637,10 +637,10 @@ type Mani struct {
 		// 27
 		DestinyObjectiveDefinition []struct {
 			ObjectiveHash                 int64  `json:"objectiveHash"`
-			UnlockValueHash               int    `json:"unlockValueHash"`
+			UnlockValueHash               int64  `json:"unlockValueHash"`
 			CompletionValue               int    `json:"completionValue"`
-			VendorHash                    int    `json:"vendorHash"`
-			VendorCategoryHash            int    `json:"vendorCategoryHash"`
+			VendorHash                    int64  `json:"vendorHash"`
+			VendorCategoryHash            int64  `json:"vendorCategoryHash"`
 			DisplayDescription            string `json:"displayDescription,omitempty"`
 			LocationHash                  int64  `json:"locationHash"`
 			AllowNegativeValue            bool   `json:"allowNegativeValue"`
@@ -701,9 +701,9 @@ type Mani struct {
 			RecordValueUIStyle string `json:"recordValueUIStyle,omitempty"`
 			Icon               string `json:"icon,omitempty"`
 			Rewards            []struct {
-				UIItemHash     int `json:"uiItemHash"`
-				UIItemQuantity int `json:"uiItemQuantity"`
-				LevelRewarded  int `json:"levelRewarded"`
+				UIItemHash     int64 `json:"uiItemHash"`
+				UIItemQuantity int   `json:"uiItemQuantity"`
+				LevelRewarded  int   `json:"levelRewarded"`
 			} `json:"rewards,omitempty"`
 			Objectives []struct {
 				ObjectiveHash int64 `json:"objectiveHash"`
@@ -717,7 +717,7 @@ type Mani struct {
 			DisplayName        string `json:"displayName"`
 			DisplayDescription string `json:"displayDescription"`
 			UnavailableReason  string `json:"unavailableReason"`
-			ProgressionHash    int    `json:"progressionHash"`
+			ProgressionHash    int64  `json:"progressionHash"`
 			RecordCount        int    `json:"recordCount"`
 			Hash               int64  `json:"hash"`
 			Index              int    `json:"index"`
@@ -726,8 +726,8 @@ type Mani struct {
 				DisplayDescription string `json:"displayDescription"`
 				DisplayStyle       int    `json:"displayStyle"`
 				Records            []struct {
-					RecordHash int  `json:"recordHash"`
-					Spotlight  bool `json:"spotlight"`
+					RecordHash int64 `json:"recordHash"`
+					Spotlight  bool  `json:"spotlight"`
 				} `json:"records"`
 			} `json:"pages,omitempty"`
 			Icon     string `json:"icon,omitempty"`
@@ -737,8 +737,8 @@ type Mani struct {
 		// 33
 		DestinyBondDefinition []struct {
 			DisplayIcon             string `json:"displayIcon,omitempty"`
-			ProvidedUnlockHash      int    `json:"providedUnlockHash"`
-			ProvidedUnlockValueHash int    `json:"providedUnlockValueHash"`
+			ProvidedUnlockHash      int64  `json:"providedUnlockHash"`
+			ProvidedUnlockValueHash int64  `json:"providedUnlockValueHash"`
 			ShowInAdvisor           bool   `json:"showInAdvisor"`
 			Hash                    int64  `json:"hash"`
 			Index                   int    `json:"index"`
@@ -749,10 +749,10 @@ type Mani struct {
 			LocationHash     int64 `json:"locationHash"`
 			LocationReleases []struct {
 				DestinationHash       int64 `json:"destinationHash"`
-				ActivityHash          int   `json:"activityHash"`
-				DirectorBookHash      int   `json:"directorBookHash"`
-				ActivityGraphHash     int   `json:"activityGraphHash"`
-				ActivityGraphNodeHash int   `json:"activityGraphNodeHash"`
+				ActivityHash          int64 `json:"activityHash"`
+				DirectorBookHash      int64 `json:"directorBookHash"`
+				ActivityGraphHash     int64 `json:"activityGraphHash"`
+				ActivityGraphNodeHash int64 `json:"activityGraphNodeHash"`
 			} `json:"locationReleases"`
 			Hash  int64 `json:"hash"`
 			Index int   `json:"index"`
@@ -912,7 +912,7 @@ type Mani struct {
 			CardDescription  string `json:"cardDescription"`
 			UnlockHowToText  string `json:"unlockHowToText"`
 			Rarity           int    `json:"rarity"`
-			UnlockFlagHash   int    `json:"unlockFlagHash"`
+			UnlockFlagHash   int64  `json:"unlockFlagHash"`
 			Points           int    `json:"points"`
 			NormalResolution struct {
 				Image struct {
@@ -982,12 +982,12 @@ type Mani struct {
 				StatNumber      int    `json:"statNumber"`
 				CardID          int    `json:"cardId"`
 				StatName        string `json:"statName"`
-				AccumulatorHash int    `json:"accumulatorHash"`
+				AccumulatorHash int64  `json:"accumulatorHash"`
 				RankCollection  []struct {
-					Rank           int `json:"rank"`
-					Threshold      int `json:"threshold"`
-					UnlockFlagHash int `json:"unlockFlagHash"`
-					Points         int `json:"points"`
+					Rank           int   `json:"rank"`
+					Threshold      int   `json:"threshold"`
+					UnlockFlagHash int64 `json:"unlockFlagHash"`
+					Points         int   `json:"points"`
 				} `json:"rankCollection"`
 			} `json:"statisticCollection,omitempty"`
 			CardLabel string `json:"cardLabel,omitempty"`
