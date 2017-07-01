@@ -1095,6 +1095,66 @@ type MiniDestinyUnlockFlagDefinition struct {
 	DisplayDescription string
 }
 
+type MiniDestinyVendorDefinition struct {
+	Summary struct {
+		VendorName            string
+		VendorDescription     string
+		VendorIcon            string
+		FactionHash           int64
+		Visible               bool
+		VendorPortrait        string
+		VendorBanner          string
+		VendorCategoryHash    int64
+		VendorSubcategoryHash int64
+		// Maybe?
+		// VendorCategoryHashes  []int64
+		// MapSectionName        string
+		// EventHash             int64
+	}
+}
+
+// Note -- This is not referenced to using a hash, but instead StatID
+type MiniDestinyHistoricalStatsDefinition struct {
+	StatID          string
+	StatName        string
+	StatDescription string
+	Group           int
+	Category        int
+	UnitType        int
+	UnitLabel       string
+	Weight          int
+	IconImage       string
+	// Maybe?
+	// PeriodTypes []int
+	// Modes       []int
+}
+
+type MiniDestinyDirectorBookDefinition struct {
+	BookName        string
+	BookDescription string
+	BookNumber      string
+	Visible         bool
+	IsOverview      bool
+	DestinationHash int64
+
+	// FMaybe? Figure these out
+	/*
+			Connections []interface{}
+			Nodes []struct {
+		        NodeDefinitionHash   int64
+		        StyleHash            int64
+		        PositionX            int
+		        PositionY            int
+		        PositionZ            int
+		        ActivityBundleHashes []int64
+		        States               []struct {
+		            State int
+		        }
+		        UIModifier int
+
+	*/
+}
+
 //////////
 // Main //
 //////////
@@ -1280,31 +1340,73 @@ func main() {
 	miniMani["DestinyTalentGridDefinition"] = mdufdMap
 	fmt.Printf("Done: %d\n", len(mdufdMap))
 
+	fmt.Printf("Vendor Definitions... ")
+	mdvdMap := make(map[int64]MiniDestinyVendorDefinition)
+	for _, e := range manifest.Manifest[10].DestinyVendorDefinition {
+		var mdvd MiniDestinyVendorDefinition
+
+		mdvd.Summary.VendorName = e.Summary.VendorName
+		mdvd.Summary.VendorDescription = e.Summary.VendorDescription
+		mdvd.Summary.VendorIcon = e.Summary.VendorIcon
+		mdvd.Summary.FactionHash = e.Summary.FactionHash
+		mdvd.Summary.Visible = e.Summary.Visible
+		mdvd.Summary.VendorPortrait = e.Summary.VendorPortrait
+		mdvd.Summary.VendorBanner = e.Summary.VendorBanner
+		mdvd.Summary.VendorCategoryHash = e.Summary.VendorCategoryHash
+		mdvd.Summary.VendorSubcategoryHash = e.Summary.VendorSubcategoryHash
+
+		mdvdMap[e.Hash] = mdvd
+	}
+	miniMani["DestinyVendorDefinition"] = mdvdMap
+	fmt.Printf("Done: %d\n", len(mdvdMap))
+
+	fmt.Printf("Historical Stats Definitions")
+	mdhsdMap := make(map[string]MiniDestinyHistoricalStatsDefinition)
+	for _, e := range manifest.Manifest[11].DestinyHistoricalStatsDefinition {
+		var mdhsd MiniDestinyHistoricalStatsDefinition
+
+		mdhsd.StatID = e.StatID
+		mdhsd.StatName = e.StatName
+		mdhsd.StatDescription = e.StatDescription
+		mdhsd.Group = e.Group
+		mdhsd.Category = e.Category
+		mdhsd.UnitType = e.UnitType
+		mdhsd.UnitLabel = e.UnitLabel
+		mdhsd.Weight = e.Weight
+		mdhsd.IconImage = e.IconImage
+
+		mdhsdMap[e.StatID] = mdhsd
+	}
+	miniMani["DestinyHistoricalStatsDefinition"] = mdhsdMap
+	fmt.Printf("Done: %d\n", len(mdhsdMap))
+
+	fmt.Printf("Director Book Definitions... ")
+	mddbdMap := make(map[int64]MiniDestinyDirectorBookDefinition)
+	for _, e := range manifest.Manifest[12].DestinyDirectorBookDefinition {
+		var mddbd MiniDestinyDirectorBookDefinition
+
+		mddbd.BookName = e.BookName
+		mddbd.BookDescription = e.BookDescription
+		mddbd.BookNumber = e.BookNumber
+		mddbd.Visible = e.Visible
+		mddbd.IsOverview = e.IsOverview
+		mddbd.DestinationHash = e.DestinationHash
+
+		mddbdMap[e.Hash] = mddbd
+	}
+	miniMani["DestinyDirectorBookDefinition"] = mddbdMap
+	fmt.Printf("Done: %d\n", len(mddbdMap))
+
 	// Continue Here
-
-	fmt.Println()
-	fmt.Println("Vendor Definitions")
-	for i, e := range manifest.Manifest[10].DestinyVendorDefinition {
-		if i < 10 {
-			fmt.Println(i, e.Summary.VendorName)
-		}
-	}
-
-	fmt.Println()
-	fmt.Println("Historical Stats Definitions")
-	for i, e := range manifest.Manifest[11].DestinyHistoricalStatsDefinition {
-		if i < 10 {
-			fmt.Println(i, e.StatName)
-		}
-	}
-
-	fmt.Println()
-	fmt.Println("Director Book Definitions")
-	for i, e := range manifest.Manifest[12].DestinyDirectorBookDefinition {
-		if i < 10 {
-			fmt.Println(i, e.BookName)
-		}
-	}
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	fmt.Println()
 	fmt.Println("Stat Definitions")
