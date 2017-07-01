@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	_ "os"
 	"time"
 )
@@ -994,7 +995,11 @@ type Mani struct {
 	} `json:"manifest"`
 }
 
-type DestinyActivityDefinition struct {
+/////////////////////////////////
+// Declare types to convert to //
+/////////////////////////////////
+
+type MiniDestinyActivityDefinition struct {
 	ActivityName        string
 	ActivityDescription string
 	Icon                string
@@ -1006,64 +1011,71 @@ type DestinyActivityDefinition struct {
 	Skulls              []interface{}
 }
 
+type MiniDestinyActivityTypeDefinition struct {
+	Identifier              string
+	ActivityTypeName        string
+	ActivityTypeDescription string
+	Icon                    string
+	// Maybe?
+	// ActiveBackgroundVirtualPath    string
+	// CompletedBackgroundVirtualPath string
+	// TooltipBackgroundVirtualPath   string
+}
+
+//////////
+// Main //
+//////////
+
 func main() {
 	fmt.Println("Running trimmer")
 
-	file, _ := ioutil.ReadFile("DestinyManifest.json")
-
+	// Read and load the local manifest file
 	var manifest Mani
+	file, fileErr := ioutil.ReadFile("DestinyManifest.json")
+	if fileErr != nil {
+		log.Fatal("fileErr", fileErr)
+		return
+	}
 	json.Unmarshal(file, &manifest)
 
+	// Initialize the output vars
 	miniMani := make(map[string]interface{})
 
-	dadMani := make(map[int64]DestinyActivityDefinition)
-
+	// Start going through the manifest data, transform it into our custom structs, and append the output
 	fmt.Println("Activity Definitions")
-	for i, e := range manifest.Manifest[0].DestinyActivityDefinition {
-		var dad DestinyActivityDefinition
+	mdadMap := make(map[int64]MiniDestinyActivityDefinition)
+	for _, e := range manifest.Manifest[0].DestinyActivityDefinition {
+		var mdad MiniDestinyActivityDefinition
 
-		dad.ActivityName = e.ActivityName
-		dad.ActivityDescription = e.ActivityDescription
-		dad.Icon = e.Icon
-		dad.ActivityLevel = e.ActivityLevel
-		dad.DestinationHash = int64(e.DestinationHash)
-		dad.PlaceHash = int64(e.PlaceHash)
-		dad.ActivityTypeHash = int64(e.ActivityTypeHash)
-		dad.Rewards = e.Rewards
-		dad.Skulls = e.Skulls
+		mdad.ActivityName = e.ActivityName
+		mdad.ActivityDescription = e.ActivityDescription
+		mdad.Icon = e.Icon
+		mdad.ActivityLevel = e.ActivityLevel
+		mdad.DestinationHash = int64(e.DestinationHash)
+		mdad.PlaceHash = int64(e.PlaceHash)
+		mdad.ActivityTypeHash = int64(e.ActivityTypeHash)
+		mdad.Rewards = e.Rewards
+		mdad.Skulls = e.Skulls
 
-		dadMani[e.Hash] = dad
-
-		if i < 10 {
-			fmt.Println(i, e.ActivityName)
-		}
+		mdadMap[e.Hash] = mdad
 	}
+	miniMani["DestinyActivityDefinition"] = mdadMap
 
-	miniMani["DestinyActivityDefinition"] = dadMani
-
-	fmt.Println()
 	fmt.Println("Activity Type Definition")
-	for i, e := range manifest.Manifest[1].DestinyActivityTypeDefinition {
-		/*
-			The structure to aim for?
-			"DestinyActivityTypeDefinition": {
-				"hash": {
-					"identifier" string
-					"activityTypeName" string
-					"activityTypeDescription" string
-					"icon" string
-					// Maybe?
-					"activeBackgroundVirtualPath" string
-					"completedBackgroundVirtualPath" string
-					"tooltipBackgroundVirtualPath" string
-				},
-				...
-			}
-		*/
-		if i < 10 {
-			fmt.Println(i, e.ActivityTypeName)
-		}
+	mdatdMap := make(map[int64]MiniDestinyActivityTypeDefinition)
+	for _, e := range manifest.Manifest[1].DestinyActivityTypeDefinition {
+		var mdatd MiniDestinyActivityTypeDefinition
+
+		mdatd.Identifier = e.Identifier
+		mdatd.ActivityTypeName = e.ActivityTypeName
+		mdatd.ActivityTypeDescription = e.ActivityTypeDescription
+		mdatd.Icon = e.Icon
+
+		mdatdMap[e.Hash] = mdatd
 	}
+	miniMani["DestinyActivityTypeDefinition"] = mdatdMap
+
+	// CONTINUE HERE
 
 	fmt.Println()
 	fmt.Println("Class Definitions")
