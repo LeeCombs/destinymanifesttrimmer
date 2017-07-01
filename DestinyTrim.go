@@ -994,6 +994,18 @@ type Mani struct {
 	} `json:"manifest"`
 }
 
+type DestinyActivityDefinition struct {
+	ActivityName        string
+	ActivityDescription string
+	Icon                string
+	ActivityLevel       int
+	DestinationHash     int64
+	PlaceHash           int64
+	ActivityTypeHash    int64
+	Rewards             []interface{}
+	Skulls              []interface{}
+}
+
 func main() {
 	fmt.Println("Running trimmer")
 
@@ -1002,60 +1014,32 @@ func main() {
 	var manifest Mani
 	json.Unmarshal(file, &manifest)
 
-	type DestinyActivityDefinition struct {
-		ActivityName        string
-		ActivityDescription string
-		Icon                string
-		ActivityLevel       int
-		DestinationHash     int64
-		PlaceHash           int64
-		ActivityTypeHash    int64
-		Rewards             []interface{}
-		Skulls              []interface{}
-	}
+	miniMani := make(map[string]interface{})
 
 	dadMani := make(map[int64]DestinyActivityDefinition)
 
 	fmt.Println("Activity Definitions")
 	for i, e := range manifest.Manifest[0].DestinyActivityDefinition {
-		if i < 1 {
-			var dad DestinyActivityDefinition
+		var dad DestinyActivityDefinition
 
-			dad.ActivityName = e.ActivityName
-			dad.ActivityDescription = e.ActivityDescription
-			dad.Icon = e.Icon
-			dad.ActivityLevel = e.ActivityLevel
-			dad.DestinationHash = int64(e.DestinationHash)
-			dad.PlaceHash = int64(e.PlaceHash)
-			dad.ActivityTypeHash = int64(e.ActivityTypeHash)
-			dad.Rewards = e.Rewards
-			dad.Skulls = e.Skulls
+		dad.ActivityName = e.ActivityName
+		dad.ActivityDescription = e.ActivityDescription
+		dad.Icon = e.Icon
+		dad.ActivityLevel = e.ActivityLevel
+		dad.DestinationHash = int64(e.DestinationHash)
+		dad.PlaceHash = int64(e.PlaceHash)
+		dad.ActivityTypeHash = int64(e.ActivityTypeHash)
+		dad.Rewards = e.Rewards
+		dad.Skulls = e.Skulls
 
-			dadMani[e.Hash] = dad
-			fmt.Println("dadMani", dadMani[e.Hash])
-		}
-		/*
-			The structure to aim for?
-			"DestinyActivityDefinition": {
-				"hash": {
-					"activityName" string
-					"activityDescription" string
-					"icon" string
-					"activityLevel" int
-					"destinationHash" string
-					"placeHash" string
-					"activityTypeHash" string
-					"rewards" []interface{}
-					"skulls" []interface{}
-				},
-				...
-			}
-		*/
+		dadMani[e.Hash] = dad
 
 		if i < 10 {
 			fmt.Println(i, e.ActivityName)
 		}
 	}
+
+	miniMani["DestinyActivityDefinition"] = dadMani
 
 	fmt.Println()
 	fmt.Println("Activity Type Definition")
@@ -1381,4 +1365,9 @@ func main() {
 			fmt.Println(i, e.CardName)
 		}
 	}
+
+	// Convert the new manifest to .json and write the file
+	b, _ := json.Marshal(miniMani)
+	ioutil.WriteFile("MiniMani.json", b, 0644)
+
 }
