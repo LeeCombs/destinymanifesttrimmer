@@ -20,7 +20,7 @@ manifest.DestinyActivityTypeDefinition[2751293122].ActivityTypeName
 
 ## Manifest Layout
 Original
-```json
+```
 {
   "manifest":[{
       "DestinyActivityDefinition": [{
@@ -36,7 +36,7 @@ Original
 ```
 
 Converted:
-```json
+```
 {
   "DestinyActivityDefinition": {
     "1005705920": {
