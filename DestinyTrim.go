@@ -9,14 +9,6 @@ import (
 	_ "os"
 )
 
-var (
-//
-)
-
-//////////
-// Main //
-//////////
-
 func main() {
 	fmt.Println("Running trimmer")
 
@@ -363,29 +355,60 @@ func main() {
 	//
 	//
 
-	fmt.Println()
-	fmt.Println("Special Event Definitions")
-	for i, e := range manifest.Manifest[19].DestinySpecialEventDefinition {
-		if i < 10 {
-			fmt.Println(i, e.EventIdentifier)
-		}
-	}
+	fmt.Printf("Special Event Definitions... ")
+	mindefSpEvtMap := make(map[int64]models.MiniDestinySpecialEventDefinition)
+	for _, e := range manifest.Manifest[19].DestinySpecialEventDefinition {
+		var mindefSpEvt models.MiniDestinySpecialEventDefinition
 
-	fmt.Println()
-	fmt.Println("Faction Definitions")
-	for i, e := range manifest.Manifest[20].DestinyFactionDefinition {
-		if i < 10 {
-			fmt.Println(i, e.FactionName)
-		}
-	}
+		mindefSpEvt.Title = e.Title
+		mindefSpEvt.Subtitle = e.Subtitle
+		mindefSpEvt.Description = e.Description
+		mindefSpEvt.Link = e.Link
+		mindefSpEvt.Icon = e.Icon
+		mindefSpEvt.BackgroundImageWeb = e.BackgroundImageWeb
+		mindefSpEvt.BackgroundImageMobile = e.BackgroundImageMobile
+		mindefSpEvt.ProgressionHash = e.ProgressionHash
+		mindefSpEvt.VendorHash = e.VendorHash
+		mindefSpEvt.FactionHash = e.FactionHash
+		mindefSpEvt.ActiveUnlockValueHash = e.ActiveUnlockValueHash
+		mindefSpEvt.PlaylistActivityHash = e.PlaylistActivityHash
+		mindefSpEvt.UnlockEventHash = e.UnlockEventHash
+		mindefSpEvt.BountyHashes = e.BountyHashes
+		mindefSpEvt.QuestHashes = e.QuestHashes
 
-	fmt.Println()
-	fmt.Println("Vendor Category Definitions")
-	for i, e := range manifest.Manifest[21].DestinyVendorCategoryDefinition {
-		if i < 10 {
-			fmt.Println(i, e.CategoryName)
-		}
+		mindefSpEvtMap[e.Hash] = mindefSpEvt
 	}
+	miniMani["DestinySpecialEventDefinition"] = mindefSpEvtMap
+	fmt.Printf("Done: %d\n", len(mindefSpEvtMap))
+
+	fmt.Printf("Faction Definitions... ")
+	mindefFactionMap := make(map[int64]models.MiniDestinyFactionDefinition)
+	for _, e := range manifest.Manifest[20].DestinyFactionDefinition {
+		var mindefFaction models.MiniDestinyFactionDefinition
+
+		mindefFaction.FactionName = e.FactionName
+		mindefFaction.FactionDescription = e.FactionDescription
+		mindefFaction.FactionIcon = e.FactionIcon
+		mindefFaction.ProgressionHash = e.ProgressionHash
+
+		mindefFactionMap[e.Hash] = mindefFaction
+	}
+	miniMani["DestinyFactionDefinition"] = mindefFactionMap
+	fmt.Printf("Done: %d\n", len(mindefFactionMap))
+
+	fmt.Printf("Vendor Category Definitions... ")
+	mindefVenCatMap := make(map[int64]models.MiniDestinyVendorCategoryDefinition)
+	for _, e := range manifest.Manifest[21].DestinyVendorCategoryDefinition {
+		var mindefVenCat models.MiniDestinyVendorCategoryDefinition
+
+		mindefVenCat.CategoryName = e.CategoryName
+		mindefVenCat.MobileBannerPath = e.MobileBannerPath
+		mindefVenCat.Identifier = e.Identifier
+
+		mindefVenCatMap[e.Hash] = mindefVenCat
+	}
+	miniMani["DestinyVendorCategoryDefinition"] = mindefVenCatMap
+	fmt.Printf("Done: %d\n", len(mindefVenCatMap))
 
 	// Continue Here
 	//

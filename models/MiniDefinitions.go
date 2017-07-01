@@ -207,3 +207,34 @@ type MiniDestinyStatGroupDefinition struct {
 	MaximumValue int
 	// TODO -- Figure out what ScaleStats and Overrides is used for
 }
+
+type MiniDestinySpecialEventDefinition struct {
+	Title                 string
+	Subtitle              string
+	Description           string
+	Link                  string
+	Icon                  string
+	BackgroundImageWeb    string
+	BackgroundImageMobile string
+	ProgressionHash       int64
+	VendorHash            int64
+	FactionHash           int64
+	ActiveUnlockValueHash int64
+	PlaylistActivityHash  int64
+	UnlockEventHash       int64
+	BountyHashes          []interface{}
+	QuestHashes           []interface{}
+}
+
+type MiniDestinyFactionDefinition struct {
+	FactionName        string
+	FactionDescription string
+	FactionIcon        string
+	ProgressionHash    int64
+}
+
+type MiniDestinyVendorCategoryDefinition struct {
+	CategoryName     string
+	MobileBannerPath string // ?
+	Identifier       string
+}
