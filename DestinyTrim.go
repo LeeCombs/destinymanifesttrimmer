@@ -1022,6 +1022,49 @@ type MiniDestinyActivityTypeDefinition struct {
 	// TooltipBackgroundVirtualPath   string
 }
 
+type MiniDestinyClassDefinition struct {
+	ClassType int
+	ClassName string
+}
+
+type MiniDestinyGenderDefinition struct {
+	GenderType int
+	GenderName string
+}
+
+type MiniDestinyInventoryBucketDefinition struct {
+	BucketName             string
+	BucketDescription      string
+	ItemCount              int
+	Category               int // Figure out what this is for
+	Location               int
+	HasTransferDestination bool
+	Enabled                bool
+}
+
+// Note -- This would be very subject to change, depending one what data you want to extract
+type MiniDestinyInventoryItemDefinition struct {
+	ItemName            string
+	ItemDescription     string
+	HasIcon             bool
+	Icon                string
+	SecondaryIcon       string
+	TierType            int
+	TierTypeName        string // May be unnecessary
+	ItemType            int
+	ItemSubType         int
+	ItemTypeName        string // May be unnecessary
+	SpecialItemType     int
+	ClassType           int
+	BucketTypeHash      int64
+	PrimaryBaseStatHash int64
+	Stats               interface{}
+	Exclusive           int
+	// Maybe?
+	// ItemCategoryHashes  []int64
+	// SourceHashes        []int64
+}
+
 //////////
 // Main //
 //////////
@@ -1041,7 +1084,7 @@ func main() {
 	// Initialize the output vars
 	miniMani := make(map[string]interface{})
 
-	// Start going through the manifest data, transform it into our custom structs, and append the output
+	// Start going through the manifest data, transform it into our structs, and build the output
 	fmt.Println("Activity Definitions")
 	mdadMap := make(map[int64]MiniDestinyActivityDefinition)
 	for _, e := range manifest.Manifest[0].DestinyActivityDefinition {
@@ -1075,59 +1118,75 @@ func main() {
 	}
 	miniMani["DestinyActivityTypeDefinition"] = mdatdMap
 
-	// CONTINUE HERE
-
-	fmt.Println()
 	fmt.Println("Class Definitions")
-	for i, e := range manifest.Manifest[2].DestinyClassDefinition {
-		/*
-			The structure to aim for?
-			"DestinyClassDefinition": {
-				"hash": {
-					"classType" int
-					"className" string
-				},
-				...
-			}
-		*/
-		if i < 10 {
-			fmt.Println(i, e.ClassName)
-		}
-	}
+	mdcdMap := make(map[int64]MiniDestinyClassDefinition)
+	for _, e := range manifest.Manifest[2].DestinyClassDefinition {
+		var mdcd MiniDestinyClassDefinition
 
-	fmt.Println()
+		mdcd.ClassName = e.ClassName
+		mdcd.ClassType = e.ClassType
+
+		mdcdMap[e.Hash] = mdcd
+	}
+	miniMani["DestinyClassDefinition"] = mdcdMap
+
 	fmt.Println("Gender Definitions")
-	for i, e := range manifest.Manifest[3].DestinyGenderDefinition {
-		/*
-			The structure to aim for?
-			"DestinyGenderDefinition": {
-				"hash": {
-					"genderType" int
-					"genderName" string
-				},
-				...
-			}
-		*/
-		if i < 10 {
-			fmt.Println(i, e.GenderName)
-		}
-	}
+	mdgdMap := make(map[int64]MiniDestinyGenderDefinition)
+	for _, e := range manifest.Manifest[3].DestinyGenderDefinition {
+		var mdgd MiniDestinyGenderDefinition
 
-	fmt.Println()
-	fmt.Println("Inventory Bucket Definitions")
-	for i, e := range manifest.Manifest[4].DestinyInventoryBucketDefinition {
-		if i < 10 {
-			fmt.Println(i, e.BucketName)
-		}
-	}
+		mdgd.GenderName = e.GenderName
+		mdgd.GenderType = e.GenderType
 
-	fmt.Println()
-	fmt.Println("Inventory Bucket Definitions")
-	for i, e := range manifest.Manifest[5].DestinyInventoryItemDefinition {
-		if i < 10 {
-			fmt.Println(i, e.ItemName)
-		}
+		mdgdMap[e.Hash] = mdgd
 	}
+	miniMani["DestinyGenderDefinition"] = mdgdMap
+
+	fmt.Println("Inventory Bucket Definitions")
+	mibdMap := make(map[int64]MiniDestinyInventoryBucketDefinition)
+	for _, e := range manifest.Manifest[4].DestinyInventoryBucketDefinition {
+		var mibd MiniDestinyInventoryBucketDefinition
+
+		mibd.BucketName = e.BucketName
+		mibd.BucketDescription = e.BucketDescription
+		mibd.ItemCount = e.ItemCount
+		mibd.Category = e.Category
+		mibd.Location = e.Location
+		mibd.HasTransferDestination = e.HasTransferDestination
+		mibd.Enabled = e.Enabled
+
+		mibdMap[e.Hash] = mibd
+	}
+	miniMani["DestinyInventoryBucketDefinition"] = mibdMap
+
+	fmt.Println("Inventory Item Definitions")
+	mdiibMap := make(map[int64]MiniDestinyInventoryItemDefinition)
+	for _, e := range manifest.Manifest[5].DestinyInventoryItemDefinition {
+		var mdiib MiniDestinyInventoryItemDefinition
+
+		mdiib.ItemName = e.ItemName
+		mdiib.ItemDescription = e.ItemDescription
+		mdiib.HasIcon = e.HasIcon
+		mdiib.Icon = e.Icon
+		mdiib.SecondaryIcon = e.SecondaryIcon
+		mdiib.TierType = e.TierType
+		mdiib.TierTypeName = e.TierTypeName
+		mdiib.ItemType = e.ItemType
+		mdiib.ItemTypeName = e.ItemTypeName
+		mdiib.SpecialItemType = e.SpecialItemType
+		mdiib.ClassType = e.ClassType
+		mdiib.BucketTypeHash = int64(e.BucketTypeHash)
+		mdiib.PrimaryBaseStatHash = int64(e.PrimaryBaseStatHash)
+		mdiib.Stats = e.Stats
+		// mdiib.ItemCategoryHashes = []int64(e.ItemCategoryHashes)
+		// mdiib.SourceHashes = e.SourceHashes
+		mdiib.Exclusive = e.Exclusive
+
+		mdiibMap[e.Hash] = mdiib
+	}
+	miniMani["DestinyInventoryItemDefinition"] = mdiibMap
+
+	// Continue Here
 
 	fmt.Println()
 	fmt.Println("Progression Definitions")
@@ -1381,5 +1440,4 @@ func main() {
 	// Convert the new manifest to .json and write the file
 	b, _ := json.Marshal(miniMani)
 	ioutil.WriteFile("MiniMani.json", b, 0644)
-
 }
