@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type MiniDestinyActivityDefinition struct {
 	ActivityName        string
 	ActivityDescription string
@@ -237,4 +239,30 @@ type MiniDestinyVendorCategoryDefinition struct {
 	CategoryName     string
 	MobileBannerPath string // ?
 	Identifier       string
+}
+
+type MiniDestinyEnemyRaceDefinition struct {
+	RaceName    string
+	Description string
+	IconPath    string
+}
+
+type MiniDestinyScriptedSkullDefinition struct {
+	SkullName   string
+	Description string
+	IconPath    string
+}
+
+type MiniDestinyTriumphSetDefinition struct {
+	Title              string
+	IconPath           string
+	IncompleteSubtitle string
+	IncompleteDetails  string
+	CompletedSubtitle  string
+	CompletedDetails   string
+	LockedSubtitle     string
+	LockedDetails      string
+	LockdownDate       time.Time
+	LockdownUnlockHash int64
+	// Triumphs []struct{}
 }

@@ -344,17 +344,6 @@ func main() {
 	miniMani["DestinyStatGroupDefinition"] = mindefStatGrpMap
 	fmt.Printf("Done: %d\n", len(mindefStatGrpMap))
 
-	// Continue Here
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
 	fmt.Printf("Special Event Definitions... ")
 	mindefSpEvtMap := make(map[int64]models.MiniDestinySpecialEventDefinition)
 	for _, e := range manifest.Manifest[19].DestinySpecialEventDefinition {
@@ -410,6 +399,55 @@ func main() {
 	miniMani["DestinyVendorCategoryDefinition"] = mindefVenCatMap
 	fmt.Printf("Done: %d\n", len(mindefVenCatMap))
 
+	fmt.Printf("Enemy Race Definitions... ")
+	mderdMap := make(map[int64]models.MiniDestinyEnemyRaceDefinition)
+	for _, e := range manifest.Manifest[22].DestinyEnemyRaceDefinition {
+		var mderd models.MiniDestinyEnemyRaceDefinition
+
+		mderd.RaceName = e.RaceName
+		mderd.Description = e.Description
+		mderd.IconPath = e.IconPath
+
+		mderdMap[e.Hash] = mderd
+	}
+	miniMani["DestinyEnemyRaceDefinition"] = mderdMap
+	fmt.Printf("Done: %d\n", len(mderdMap))
+
+	fmt.Printf("Scripted Skull Definitions... ")
+	mdssdMap := make(map[int64]models.MiniDestinyScriptedSkullDefinition)
+	for _, e := range manifest.Manifest[23].DestinyScriptedSkullDefinition {
+		var mdssd models.MiniDestinyScriptedSkullDefinition
+
+		mdssd.SkullName = e.SkullName
+		mdssd.Description = e.Description
+		mdssd.IconPath = e.IconPath
+
+		mdssdMap[e.Hash] = mdssd
+	}
+	miniMani["DestinyScriptedSkullDefinition"] = mdssdMap
+	fmt.Printf("Done: %d\n", len(mdssdMap))
+
+	fmt.Printf("Triumph Set Definitions... ")
+	mdtsMap := make(map[int64]models.MiniDestinyTriumphSetDefinition)
+	for _, e := range manifest.Manifest[24].DestinyTriumphSetDefinition {
+		var mdts models.MiniDestinyTriumphSetDefinition
+
+		mdts.Title = e.Title
+		mdts.IconPath = e.IconPath
+		mdts.IncompleteSubtitle = e.IncompleteSubtitle
+		mdts.IncompleteDetails = e.IncompleteDetails
+		mdts.CompletedSubtitle = e.CompletedSubtitle
+		mdts.CompletedDetails = e.CompletedDetails
+		mdts.LockedSubtitle = e.LockedSubtitle
+		mdts.LockedDetails = e.LockedDetails
+		mdts.LockdownDate = e.LockdownDate
+		mdts.LockdownUnlockHash = e.LockdownUnlockHash
+
+		mdtsMap[e.Hash] = mdts
+	}
+	miniMani["DestinyTriumphSetDefinition"] = mdtsMap
+	fmt.Printf("Done: %d\n", len(mdtsMap))
+
 	// Continue Here
 	//
 	//
@@ -420,30 +458,6 @@ func main() {
 	//
 	//
 	//
-
-	fmt.Println()
-	fmt.Println("Enemy Race Definitions")
-	for i, e := range manifest.Manifest[22].DestinyEnemyRaceDefinition {
-		if i < 10 {
-			fmt.Println(i, e.RaceName)
-		}
-	}
-
-	fmt.Println()
-	fmt.Println("Scripted Skull Definitions")
-	for i, e := range manifest.Manifest[23].DestinyScriptedSkullDefinition {
-		if i < 10 {
-			fmt.Println(i, e.SkullName)
-		}
-	}
-
-	fmt.Println()
-	fmt.Println("Triumph Set Definitions")
-	for i, e := range manifest.Manifest[24].DestinyTriumphSetDefinition {
-		if i < 10 {
-			fmt.Println(i, e.Title)
-		}
-	}
 
 	fmt.Println()
 	fmt.Println("Item Category Definitions")
@@ -468,6 +482,17 @@ func main() {
 			fmt.Println(i, e.DisplayDescription)
 		}
 	}
+
+	// Continue Here
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	fmt.Println()
 	fmt.Println("Damage Type Definitions")
