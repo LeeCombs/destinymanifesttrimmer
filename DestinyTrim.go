@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/leecombs/destinymanifesttrimmer/models"
 	"io/ioutil"
 	"log"
 	_ "os"
@@ -995,218 +996,6 @@ type Mani struct {
 	} `json:"manifest"`
 }
 
-/////////////////////////////////
-// Declare types to convert to //
-/////////////////////////////////
-
-type MiniDestinyActivityDefinition struct {
-	ActivityName        string
-	ActivityDescription string
-	Icon                string
-	ActivityLevel       int
-	DestinationHash     int64
-	PlaceHash           int64
-	ActivityTypeHash    int64
-	Rewards             []interface{}
-	Skulls              []interface{}
-}
-
-type MiniDestinyActivityTypeDefinition struct {
-	Identifier              string
-	ActivityTypeName        string
-	ActivityTypeDescription string
-	Icon                    string
-	// Maybe?
-	// ActiveBackgroundVirtualPath    string
-	// CompletedBackgroundVirtualPath string
-	// TooltipBackgroundVirtualPath   string
-}
-
-type MiniDestinyClassDefinition struct {
-	ClassType int
-	ClassName string
-}
-
-type MiniDestinyGenderDefinition struct {
-	GenderType int
-	GenderName string
-}
-
-type MiniDestinyInventoryBucketDefinition struct {
-	BucketName             string
-	BucketDescription      string
-	ItemCount              int
-	Category               int // Figure out what this is for
-	Location               int
-	HasTransferDestination bool
-	Enabled                bool
-}
-
-// Note -- This would be very subject to change, depending one what data you want to extract
-type MiniDestinyInventoryItemDefinition struct {
-	ItemName            string
-	ItemDescription     string
-	HasIcon             bool
-	Icon                string
-	SecondaryIcon       string
-	TierType            int
-	TierTypeName        string // May be unnecessary
-	ItemType            int
-	ItemSubType         int
-	ItemTypeName        string // May be unnecessary
-	SpecialItemType     int
-	ClassType           int
-	BucketTypeHash      int64
-	PrimaryBaseStatHash int64
-	Stats               interface{}
-	Exclusive           int
-	// Maybe?
-	// ItemCategoryHashes  []int64
-	// SourceHashes        []int64
-}
-
-type MiniDestinyProgressionDefinition struct {
-	Name        string
-	Scope       int // Figure out what this is for
-	Steps       []interface{}
-	Visible     bool
-	Icon        string
-	Description string
-	Source      string
-}
-
-type MiniDestinyRaceDefinition struct {
-	RaceType        int
-	RaceName        string
-	RaceNameMale    string
-	RaceNameFemale  string
-	RaceDescription string
-}
-
-// Note -- No clue about this one, so it's pretty empty for now
-type MiniDestinyTalentGridDefinition struct {
-	ProgressionHash int64
-	Nodes           []interface{}
-}
-
-// Note -- No clue about this one, so it's pretty empty for now
-type MiniDestinyUnlockFlagDefinition struct {
-	DisplayName        string
-	DisplayDescription string
-}
-
-type MiniDestinyVendorDefinition struct {
-	Summary struct {
-		VendorName            string
-		VendorDescription     string
-		VendorIcon            string
-		FactionHash           int64
-		Visible               bool
-		VendorPortrait        string
-		VendorBanner          string
-		VendorCategoryHash    int64
-		VendorSubcategoryHash int64
-		// Maybe?
-		// VendorCategoryHashes  []int64
-		// MapSectionName        string
-		// EventHash             int64
-	}
-}
-
-// Note -- This is not referenced to using a hash, but instead StatID
-type MiniDestinyHistoricalStatsDefinition struct {
-	StatID          string
-	StatName        string
-	StatDescription string
-	Group           int
-	Category        int
-	UnitType        int
-	UnitLabel       string
-	Weight          int
-	IconImage       string
-	// Maybe?
-	// PeriodTypes []int
-	// Modes       []int
-}
-
-type MiniDestinyDirectorBookDefinition struct {
-	BookName        string
-	BookDescription string
-	BookNumber      string
-	Visible         bool
-	IsOverview      bool
-	DestinationHash int64
-
-	// Maybe? Figure these out
-	/*
-			Connections []interface{}
-			Nodes []struct {
-		        NodeDefinitionHash   int64
-		        StyleHash            int64
-		        PositionX            int
-		        PositionY            int
-		        PositionZ            int
-		        ActivityBundleHashes []int64
-		        States               []struct {
-		            State int
-		        }
-		        UIModifier int
-
-	*/
-}
-
-type MiniDestinyStatDefinition struct {
-	StatName        string
-	StatDescription string
-	Icon            string
-}
-
-type MiniDestinySandboxPerkDefinition struct {
-	DisplayName        string
-	DisplayDescription string
-	DisplayIcon        string
-	IsDisplayable      bool
-	PerkIdentifer      string
-	PerkGroups         struct {
-		WeaponPerformance  int
-		ImpactEffects      int
-		GuardianAttributes int
-		LightAbilities     int
-		DamageTypes        int
-	}
-}
-
-type MiniDestinyDestinationDefinition struct {
-	DestinationName        string
-	DestinationIdentifier  string
-	DestinationDescription string
-	Icon                   string
-	PlaceHash              int64
-	LocationIndentifier    string
-}
-
-type MiniDestinyPlaceDefinition struct {
-	PlaceName        string
-	PlaceDescription string
-	icon             string
-}
-
-type MiniDestinyActivityBundleDefinition struct {
-	ActivityName        string
-	ActivityDescription string
-	ActivityTypeHash    int64
-	ActivityHashes      []int64
-	Icon                string
-	DestinationHash     int64
-	PlaceHash           int64
-}
-
-// Note - No clue what this is for, needs research
-type MiniDestinyStatGroupDefinition struct {
-	MaximumValue int
-	// TODO -- Figure out what ScaleStats and Overrides is used for
-}
-
 //////////
 // Main //
 //////////
@@ -1228,9 +1017,9 @@ func main() {
 
 	// Start going through the manifest data, transform it into our structs, and build the output
 	fmt.Printf("Activity Definitions... ")
-	mdadMap := make(map[int64]MiniDestinyActivityDefinition)
+	mdadMap := make(map[int64]models.MiniDestinyActivityDefinition)
 	for _, e := range manifest.Manifest[0].DestinyActivityDefinition {
-		var mdad MiniDestinyActivityDefinition
+		var mdad models.MiniDestinyActivityDefinition
 
 		mdad.ActivityName = e.ActivityName
 		mdad.ActivityDescription = e.ActivityDescription
@@ -1248,9 +1037,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdadMap))
 
 	fmt.Printf("Activity Type Definitions... ")
-	mdatdMap := make(map[int64]MiniDestinyActivityTypeDefinition)
+	mdatdMap := make(map[int64]models.MiniDestinyActivityTypeDefinition)
 	for _, e := range manifest.Manifest[1].DestinyActivityTypeDefinition {
-		var mdatd MiniDestinyActivityTypeDefinition
+		var mdatd models.MiniDestinyActivityTypeDefinition
 
 		mdatd.Identifier = e.Identifier
 		mdatd.ActivityTypeName = e.ActivityTypeName
@@ -1263,9 +1052,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdatdMap))
 
 	fmt.Printf("Class Definitions... ")
-	mdcdMap := make(map[int64]MiniDestinyClassDefinition)
+	mdcdMap := make(map[int64]models.MiniDestinyClassDefinition)
 	for _, e := range manifest.Manifest[2].DestinyClassDefinition {
-		var mdcd MiniDestinyClassDefinition
+		var mdcd models.MiniDestinyClassDefinition
 
 		mdcd.ClassName = e.ClassName
 		mdcd.ClassType = e.ClassType
@@ -1276,9 +1065,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdcdMap))
 
 	fmt.Printf("Gender Definitions... ")
-	mdgdMap := make(map[int64]MiniDestinyGenderDefinition)
+	mdgdMap := make(map[int64]models.MiniDestinyGenderDefinition)
 	for _, e := range manifest.Manifest[3].DestinyGenderDefinition {
-		var mdgd MiniDestinyGenderDefinition
+		var mdgd models.MiniDestinyGenderDefinition
 
 		mdgd.GenderName = e.GenderName
 		mdgd.GenderType = e.GenderType
@@ -1289,9 +1078,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdgdMap))
 
 	fmt.Printf("Inventory Bucket Definitions... ")
-	mibdMap := make(map[int64]MiniDestinyInventoryBucketDefinition)
+	mibdMap := make(map[int64]models.MiniDestinyInventoryBucketDefinition)
 	for _, e := range manifest.Manifest[4].DestinyInventoryBucketDefinition {
-		var mibd MiniDestinyInventoryBucketDefinition
+		var mibd models.MiniDestinyInventoryBucketDefinition
 
 		mibd.BucketName = e.BucketName
 		mibd.BucketDescription = e.BucketDescription
@@ -1307,9 +1096,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mibdMap))
 
 	fmt.Printf("Inventory Item Definitions... ")
-	mdiibMap := make(map[int64]MiniDestinyInventoryItemDefinition)
+	mdiibMap := make(map[int64]models.MiniDestinyInventoryItemDefinition)
 	for _, e := range manifest.Manifest[5].DestinyInventoryItemDefinition {
-		var mdiib MiniDestinyInventoryItemDefinition
+		var mdiib models.MiniDestinyInventoryItemDefinition
 
 		mdiib.ItemName = e.ItemName
 		mdiib.ItemDescription = e.ItemDescription
@@ -1333,9 +1122,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdiibMap))
 
 	fmt.Printf("Progression Definitions... ")
-	mdpdMap := make(map[int64]MiniDestinyProgressionDefinition)
+	mdpdMap := make(map[int64]models.MiniDestinyProgressionDefinition)
 	for _, e := range manifest.Manifest[6].DestinyProgressionDefinition {
-		var mdpd MiniDestinyProgressionDefinition
+		var mdpd models.MiniDestinyProgressionDefinition
 
 		mdpd.Name = e.Name
 		mdpd.Scope = e.Scope
@@ -1351,9 +1140,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdpdMap))
 
 	fmt.Printf("Race Definitions... ")
-	mdrdMap := make(map[int64]MiniDestinyRaceDefinition)
+	mdrdMap := make(map[int64]models.MiniDestinyRaceDefinition)
 	for _, e := range manifest.Manifest[7].DestinyRaceDefinition {
-		var mdrd MiniDestinyRaceDefinition
+		var mdrd models.MiniDestinyRaceDefinition
 
 		mdrd.RaceType = e.RaceType
 		mdrd.RaceName = e.RaceName
@@ -1367,9 +1156,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdrdMap))
 
 	fmt.Printf("Talent Grid Definitions... ")
-	mtgdMap := make(map[int64]MiniDestinyTalentGridDefinition)
+	mtgdMap := make(map[int64]models.MiniDestinyTalentGridDefinition)
 	for _, e := range manifest.Manifest[8].DestinyTalentGridDefinition {
-		var mtdg MiniDestinyTalentGridDefinition
+		var mtdg models.MiniDestinyTalentGridDefinition
 
 		mtdg.ProgressionHash = int64(e.ProgressionHash)
 		mtdg.Nodes = e.Nodes
@@ -1380,9 +1169,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mtgdMap))
 
 	fmt.Printf("Unlock Flag Definitions... ")
-	mdufdMap := make(map[int64]MiniDestinyUnlockFlagDefinition)
+	mdufdMap := make(map[int64]models.MiniDestinyUnlockFlagDefinition)
 	for _, e := range manifest.Manifest[9].DestinyUnlockFlagDefinition {
-		var mdufd MiniDestinyUnlockFlagDefinition
+		var mdufd models.MiniDestinyUnlockFlagDefinition
 
 		mdufd.DisplayName = e.DisplayName
 		mdufd.DisplayDescription = e.DisplayDescription
@@ -1393,9 +1182,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdufdMap))
 
 	fmt.Printf("Vendor Definitions... ")
-	mdvdMap := make(map[int64]MiniDestinyVendorDefinition)
+	mdvdMap := make(map[int64]models.MiniDestinyVendorDefinition)
 	for _, e := range manifest.Manifest[10].DestinyVendorDefinition {
-		var mdvd MiniDestinyVendorDefinition
+		var mdvd models.MiniDestinyVendorDefinition
 
 		mdvd.Summary.VendorName = e.Summary.VendorName
 		mdvd.Summary.VendorDescription = e.Summary.VendorDescription
@@ -1413,9 +1202,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdvdMap))
 
 	fmt.Printf("Historical Stats Definitions... ")
-	mdhsdMap := make(map[string]MiniDestinyHistoricalStatsDefinition)
+	mdhsdMap := make(map[string]models.MiniDestinyHistoricalStatsDefinition)
 	for _, e := range manifest.Manifest[11].DestinyHistoricalStatsDefinition {
-		var mdhsd MiniDestinyHistoricalStatsDefinition
+		var mdhsd models.MiniDestinyHistoricalStatsDefinition
 
 		mdhsd.StatID = e.StatID
 		mdhsd.StatName = e.StatName
@@ -1433,9 +1222,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdhsdMap))
 
 	fmt.Printf("Director Book Definitions... ")
-	mddbdMap := make(map[int64]MiniDestinyDirectorBookDefinition)
+	mddbdMap := make(map[int64]models.MiniDestinyDirectorBookDefinition)
 	for _, e := range manifest.Manifest[12].DestinyDirectorBookDefinition {
-		var mddbd MiniDestinyDirectorBookDefinition
+		var mddbd models.MiniDestinyDirectorBookDefinition
 
 		mddbd.BookName = e.BookName
 		mddbd.BookDescription = e.BookDescription
@@ -1450,9 +1239,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mddbdMap))
 
 	fmt.Printf("Stat Definitions... ")
-	mdsdMap := make(map[int64]MiniDestinyStatDefinition)
+	mdsdMap := make(map[int64]models.MiniDestinyStatDefinition)
 	for _, e := range manifest.Manifest[13].DestinyStatDefinition {
-		var mdsd MiniDestinyStatDefinition
+		var mdsd models.MiniDestinyStatDefinition
 
 		mdsd.StatName = e.StatName
 		mdsd.StatDescription = e.StatDescription
@@ -1464,9 +1253,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdsdMap))
 
 	fmt.Printf("Sandbox Perk Definitions... ")
-	mdspdMap := make(map[int64]MiniDestinySandboxPerkDefinition)
+	mdspdMap := make(map[int64]models.MiniDestinySandboxPerkDefinition)
 	for _, e := range manifest.Manifest[14].DestinySandboxPerkDefinition {
-		var mdspd MiniDestinySandboxPerkDefinition
+		var mdspd models.MiniDestinySandboxPerkDefinition
 
 		mdspd.DisplayName = e.DisplayName
 		mdspd.DisplayDescription = e.DisplayDescription
@@ -1486,9 +1275,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdspdMap))
 
 	fmt.Printf("Destination Definitions... ")
-	mdddMap := make(map[int64]MiniDestinyDestinationDefinition)
+	mdddMap := make(map[int64]models.MiniDestinyDestinationDefinition)
 	for _, e := range manifest.Manifest[15].DestinyDestinationDefinition {
-		var mddd MiniDestinyDestinationDefinition
+		var mddd models.MiniDestinyDestinationDefinition
 
 		mddd.DestinationName = e.DestinationName
 		mddd.DestinationIdentifier = e.DestinationIdentifier
@@ -1503,13 +1292,13 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdddMap))
 
 	fmt.Printf("Place Definitions... ")
-	mindefPlaceMap := make(map[int64]MiniDestinyPlaceDefinition)
+	mindefPlaceMap := make(map[int64]models.MiniDestinyPlaceDefinition)
 	for _, e := range manifest.Manifest[16].DestinyPlaceDefinition {
-		var mindefPlace MiniDestinyPlaceDefinition
+		var mindefPlace models.MiniDestinyPlaceDefinition
 
 		mindefPlace.PlaceName = e.PlaceName
 		mindefPlace.PlaceDescription = e.PlaceDescription
-		mindefPlace.icon = e.Icon
+		mindefPlace.Icon = e.Icon
 
 		mindefPlaceMap[e.Hash] = mindefPlace
 	}
@@ -1517,9 +1306,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mindefPlaceMap))
 
 	fmt.Printf("Activity Bundle Definitions... ")
-	mindefActBunMap := make(map[int64]MiniDestinyActivityBundleDefinition)
+	mindefActBunMap := make(map[int64]models.MiniDestinyActivityBundleDefinition)
 	for _, e := range manifest.Manifest[17].DestinyActivityBundleDefinition {
-		var mindefActBun MiniDestinyActivityBundleDefinition
+		var mindefActBun models.MiniDestinyActivityBundleDefinition
 
 		mindefActBun.ActivityName = e.ActivityName
 		mindefActBun.ActivityDescription = e.ActivityDescription
@@ -1535,9 +1324,9 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mindefActBunMap))
 
 	fmt.Printf("Stat Group Definitions... ")
-	mindefStatGrpMap := make(map[int64]MiniDestinyStatGroupDefinition)
+	mindefStatGrpMap := make(map[int64]models.MiniDestinyStatGroupDefinition)
 	for _, e := range manifest.Manifest[18].DestinyStatGroupDefinition {
-		var mindefStatGrp MiniDestinyStatGroupDefinition
+		var mindefStatGrp models.MiniDestinyStatGroupDefinition
 
 		mindefStatGrp.MaximumValue = e.MaximumValue
 
@@ -1715,5 +1504,5 @@ func main() {
 
 	// Convert the new manifest to .json and write the file
 	b, _ := json.Marshal(miniMani)
-	ioutil.WriteFile("MiniMani.json", b, 0644)
+	ioutil.WriteFile("models.MiniMani.json", b, 0644)
 }
