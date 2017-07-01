@@ -266,3 +266,113 @@ type MiniDestinyTriumphSetDefinition struct {
 	LockdownUnlockHash int64
 	// Triumphs []struct{}
 }
+
+type MiniDestinyItemCategoryDefinition struct {
+	Visible     bool
+	Title       string
+	ShortTitle  string
+	Description string
+	// What is Grant?
+	GrantDestinyItemType int
+	GrantDestinySubType  int
+	GrantDestinyClass    int
+}
+
+type MiniDestinyRewardSourceDefinition struct {
+	Category    int
+	SourceName  string
+	Description string
+	Icon        string
+}
+
+// No clue
+type MiniDestinyObjectiveDefinition struct {
+	DisplayDescription string
+	UnlockValueHash    int64
+	VendorHash         int64
+	VendorCategoryHash int64
+	LocationHash       int64
+}
+
+type MiniDestinyDamageTypeDefinition struct {
+	DamageTypeName      string
+	IconPath            string
+	TransparentIconPath string
+	ShowIcon            bool
+	EnumValue           int
+}
+
+type MiniDestinyCombatantDefinition struct {
+	Icon          string
+	CombatantName string
+	Description   string
+	Image         string
+}
+
+type MiniDestinyActivityCategoryDefinition struct {
+	Title        string
+	HelpTitle    string
+	Description  string
+	Image        string
+	ParentHashes []int64
+	// Links []struct{Title string,URL string}
+}
+
+type MiniDestinyRecordDefinition struct {
+	DisplayName        string
+	Description        string
+	Icon               string
+	RecordValueUIStyle string
+	// Rewards []struct{}
+	// Objectives []struct{}
+}
+
+type MiniDestinyRecordBookDefinition struct {
+	DisplayName        string
+	DisplayDescription string
+	UnavailableReason  string
+	PRogressionHash    int64
+	RecordCount        int
+	Icon               string
+	ItemHash           int64
+	// Pages []struct{}
+}
+
+type MiniDestinyBondDefinition struct {
+	DisplayIcon             string
+	ProvidedUnlockHash      int64
+	ProvidedUnlockValueHash int64
+	ShowInAdvisor           bool
+}
+
+// No clue
+type MiniDestinyLocationDefinition struct {
+	LocationHash int64
+	/*
+		LocationReleases []struct {
+			DestinationHash       int64
+			ActivityHash          int64
+			DirectorBookHash      int64
+			ActivityGraphHash     int64
+			ActivityGraphNodeHash int64
+		}
+	*/
+}
+
+// No clue
+type MiniDestinyGrimoireDefinition struct {
+	// ThemeCollection []struct{}
+}
+
+// 36 -- Note: Unsure if this is comprehensive. Generated from a handful of entries
+type MiniDestinyGrimoireCardDefinition struct {
+	CardID          int
+	CardName        string
+	CardIntro       string
+	CardDescription string
+	CardLabel       string
+	UnlockHowToText string
+	UnlockFlagHash  int64
+	Points          int
+	// StatisticCollection []struct{}
+}
