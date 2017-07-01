@@ -1185,6 +1185,28 @@ type MiniDestinyDestinationDefinition struct {
 	LocationIndentifier    string
 }
 
+type MiniDestinyPlaceDefinition struct {
+	PlaceName        string
+	PlaceDescription string
+	icon             string
+}
+
+type MiniDestinyActivityBundleDefinition struct {
+	ActivityName        string
+	ActivityDescription string
+	ActivityTypeHash    int64
+	ActivityHashes      []int64
+	Icon                string
+	DestinationHash     int64
+	PlaceHash           int64
+}
+
+// Note - No clue what this is for, needs research
+type MiniDestinyStatGroupDefinition struct {
+	MaximumValue int
+	// TODO -- Figure out what ScaleStats and Overrides is used for
+}
+
 //////////
 // Main //
 //////////
@@ -1390,7 +1412,7 @@ func main() {
 	miniMani["DestinyVendorDefinition"] = mdvdMap
 	fmt.Printf("Done: %d\n", len(mdvdMap))
 
-	fmt.Printf("Historical Stats Definitions")
+	fmt.Printf("Historical Stats Definitions... ")
 	mdhsdMap := make(map[string]MiniDestinyHistoricalStatsDefinition)
 	for _, e := range manifest.Manifest[11].DestinyHistoricalStatsDefinition {
 		var mdhsd MiniDestinyHistoricalStatsDefinition
@@ -1426,17 +1448,6 @@ func main() {
 	}
 	miniMani["DestinyDirectorBookDefinition"] = mddbdMap
 	fmt.Printf("Done: %d\n", len(mddbdMap))
-
-	// Continue Here
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	fmt.Printf("Stat Definitions... ")
 	mdsdMap := make(map[int64]MiniDestinyStatDefinition)
@@ -1474,8 +1485,7 @@ func main() {
 	miniMani["DestinySandboxPerkDefinition"] = mdspdMap
 	fmt.Printf("Done: %d\n", len(mdspdMap))
 
-	fmt.Println()
-	fmt.Println("Destination Definitions")
+	fmt.Printf("Destination Definitions... ")
 	mdddMap := make(map[int64]MiniDestinyDestinationDefinition)
 	for _, e := range manifest.Manifest[15].DestinyDestinationDefinition {
 		var mddd MiniDestinyDestinationDefinition
@@ -1492,6 +1502,50 @@ func main() {
 	miniMani["DestinyDestinationDefinition"] = mdddMap
 	fmt.Printf("Done: %d\n", len(mdddMap))
 
+	fmt.Printf("Place Definitions... ")
+	mindefPlaceMap := make(map[int64]MiniDestinyPlaceDefinition)
+	for _, e := range manifest.Manifest[16].DestinyPlaceDefinition {
+		var mindefPlace MiniDestinyPlaceDefinition
+
+		mindefPlace.PlaceName = e.PlaceName
+		mindefPlace.PlaceDescription = e.PlaceDescription
+		mindefPlace.icon = e.Icon
+
+		mindefPlaceMap[e.Hash] = mindefPlace
+	}
+	miniMani["DestinyPlaceDefinition"] = mindefPlaceMap
+	fmt.Printf("Done: %d\n", len(mindefPlaceMap))
+
+	fmt.Printf("Activity Bundle Definitions... ")
+	mindefActBunMap := make(map[int64]MiniDestinyActivityBundleDefinition)
+	for _, e := range manifest.Manifest[17].DestinyActivityBundleDefinition {
+		var mindefActBun MiniDestinyActivityBundleDefinition
+
+		mindefActBun.ActivityName = e.ActivityName
+		mindefActBun.ActivityDescription = e.ActivityDescription
+		mindefActBun.ActivityTypeHash = e.ActivityTypeHash
+		mindefActBun.ActivityHashes = e.ActivityHashes
+		mindefActBun.Icon = e.Icon
+		mindefActBun.DestinationHash = e.DestinationHash
+		mindefActBun.PlaceHash = e.PlaceHash
+
+		mindefActBunMap[e.Hash] = mindefActBun
+	}
+	miniMani["DestinyActivityBundleDefinition"] = mindefActBunMap
+	fmt.Printf("Done: %d\n", len(mindefActBunMap))
+
+	fmt.Printf("Stat Group Definitions... ")
+	mindefStatGrpMap := make(map[int64]MiniDestinyStatGroupDefinition)
+	for _, e := range manifest.Manifest[18].DestinyStatGroupDefinition {
+		var mindefStatGrp MiniDestinyStatGroupDefinition
+
+		mindefStatGrp.MaximumValue = e.MaximumValue
+
+		mindefStatGrpMap[e.Hash] = mindefStatGrp
+	}
+	miniMani["DestinyStatGroupDefinition"] = mindefStatGrpMap
+	fmt.Printf("Done: %d\n", len(mindefStatGrpMap))
+
 	// Continue Here
 	//
 	//
@@ -1502,30 +1556,6 @@ func main() {
 	//
 	//
 	//
-
-	fmt.Println()
-	fmt.Println("Place Definitions")
-	for i, e := range manifest.Manifest[16].DestinyPlaceDefinition {
-		if i < 10 {
-			fmt.Println(i, e.PlaceName)
-		}
-	}
-
-	fmt.Println()
-	fmt.Println("Activity Bundle Definitions")
-	for i, e := range manifest.Manifest[17].DestinyActivityBundleDefinition {
-		if i < 10 {
-			fmt.Println(i, e.ActivityName)
-		}
-	}
-
-	fmt.Println()
-	fmt.Println("Stat Group Definitions")
-	for i, e := range manifest.Manifest[18].DestinyStatGroupDefinition {
-		if i < 10 {
-			fmt.Println(i, e.Hash)
-		}
-	}
 
 	fmt.Println()
 	fmt.Println("Special Event Definitions")
@@ -1550,6 +1580,17 @@ func main() {
 			fmt.Println(i, e.CategoryName)
 		}
 	}
+
+	// Continue Here
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	fmt.Println()
 	fmt.Println("Enemy Race Definitions")
