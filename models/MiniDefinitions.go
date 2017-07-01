@@ -46,6 +46,7 @@ type MiniDestinyInventoryBucketDefinition struct {
 }
 
 // Note -- This would be very subject to change, depending one what data you want to extract
+// Note -- Unsure if this is comprehensive. Generated from a handful of entries
 type MiniDestinyInventoryItemDefinition struct {
 	ItemName            string
 	ItemDescription     string
@@ -87,6 +88,7 @@ type MiniDestinyRaceDefinition struct {
 }
 
 // Note -- No clue about this one, so it's pretty empty for now
+// Note -- Unsure if this is comprehensive. Generated from a handful of entries
 type MiniDestinyTalentGridDefinition struct {
 	ProgressionHash int64
 	Nodes           []interface{}
