@@ -1137,7 +1137,7 @@ type MiniDestinyDirectorBookDefinition struct {
 	IsOverview      bool
 	DestinationHash int64
 
-	// FMaybe? Figure these out
+	// Maybe? Figure these out
 	/*
 			Connections []interface{}
 			Nodes []struct {
@@ -1153,6 +1153,36 @@ type MiniDestinyDirectorBookDefinition struct {
 		        UIModifier int
 
 	*/
+}
+
+type MiniDestinyStatDefinition struct {
+	StatName        string
+	StatDescription string
+	Icon            string
+}
+
+type MiniDestinySandboxPerkDefinition struct {
+	DisplayName        string
+	DisplayDescription string
+	DisplayIcon        string
+	IsDisplayable      bool
+	PerkIdentifer      string
+	PerkGroups         struct {
+		WeaponPerformance  int
+		ImpactEffects      int
+		GuardianAttributes int
+		LightAbilities     int
+		DamageTypes        int
+	}
+}
+
+type MiniDestinyDestinationDefinition struct {
+	DestinationName        string
+	DestinationIdentifier  string
+	DestinationDescription string
+	Icon                   string
+	PlaceHash              int64
+	LocationIndentifier    string
 }
 
 //////////
@@ -1408,29 +1438,70 @@ func main() {
 	//
 	//
 
-	fmt.Println()
-	fmt.Println("Stat Definitions")
-	for i, e := range manifest.Manifest[13].DestinyStatDefinition {
-		if i < 10 {
-			fmt.Println(i, e.StatName)
-		}
-	}
+	fmt.Printf("Stat Definitions... ")
+	mdsdMap := make(map[int64]MiniDestinyStatDefinition)
+	for _, e := range manifest.Manifest[13].DestinyStatDefinition {
+		var mdsd MiniDestinyStatDefinition
 
-	fmt.Println()
-	fmt.Println("Sandbox Perk Definitions")
-	for i, e := range manifest.Manifest[14].DestinySandboxPerkDefinition {
-		if i < 10 {
-			fmt.Println(i, e.DisplayName)
-		}
+		mdsd.StatName = e.StatName
+		mdsd.StatDescription = e.StatDescription
+		mdsd.Icon = e.Icon
+
+		mdsdMap[e.Hash] = mdsd
 	}
+	miniMani["DestinyStatDefinition"] = mdsdMap
+	fmt.Printf("Done: %d\n", len(mdsdMap))
+
+	fmt.Printf("Sandbox Perk Definitions... ")
+	mdspdMap := make(map[int64]MiniDestinySandboxPerkDefinition)
+	for _, e := range manifest.Manifest[14].DestinySandboxPerkDefinition {
+		var mdspd MiniDestinySandboxPerkDefinition
+
+		mdspd.DisplayName = e.DisplayName
+		mdspd.DisplayDescription = e.DisplayDescription
+		mdspd.DisplayIcon = e.DisplayIcon
+		mdspd.IsDisplayable = e.IsDisplayable
+		mdspd.PerkIdentifer = e.PerkIdentifier
+
+		mdspd.PerkGroups.WeaponPerformance = e.PerkGroups.WeaponPerformance
+		mdspd.PerkGroups.ImpactEffects = e.PerkGroups.ImpactEffects
+		mdspd.PerkGroups.GuardianAttributes = e.PerkGroups.GuardianAttributes
+		mdspd.PerkGroups.LightAbilities = e.PerkGroups.LightAbilities
+		mdspd.PerkGroups.DamageTypes = e.PerkGroups.DamageTypes
+
+		mdspdMap[e.Hash] = mdspd
+	}
+	miniMani["DestinySandboxPerkDefinition"] = mdspdMap
+	fmt.Printf("Done: %d\n", len(mdspdMap))
 
 	fmt.Println()
 	fmt.Println("Destination Definitions")
-	for i, e := range manifest.Manifest[15].DestinyDestinationDefinition {
-		if i < 10 {
-			fmt.Println(i, e.DestinationName)
-		}
+	mdddMap := make(map[int64]MiniDestinyDestinationDefinition)
+	for _, e := range manifest.Manifest[15].DestinyDestinationDefinition {
+		var mddd MiniDestinyDestinationDefinition
+
+		mddd.DestinationName = e.DestinationName
+		mddd.DestinationIdentifier = e.DestinationIdentifier
+		mddd.DestinationDescription = e.DestinationDescription
+		mddd.Icon = e.Icon
+		mddd.PlaceHash = e.PlaceHash
+		mddd.LocationIndentifier = e.LocationIdentifier
+
+		mdddMap[e.Hash] = mddd
 	}
+	miniMani["DestinyDestinationDefinition"] = mdddMap
+	fmt.Printf("Done: %d\n", len(mdddMap))
+
+	// Continue Here
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	fmt.Println()
 	fmt.Println("Place Definitions")
