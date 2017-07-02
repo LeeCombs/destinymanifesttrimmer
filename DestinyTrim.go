@@ -507,50 +507,47 @@ func main() {
 	miniMani["DestinyObjectiveDefinition"] = mdodMap
 	fmt.Printf("Done: %d\n", len(mdodMap))
 
-	// Continue Here
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
-	fmt.Println()
-	fmt.Println("Damage Type Definitions")
+	fmt.Printf("Damage Type Definitions... ")
 	mddtdMap := make(map[int64]models.MiniDestinyDamageTypeDefinition)
 	for _, e := range manifest.Manifest[28].DestinyDamageTypeDefinition {
 		var mddtd models.MiniDestinyDamageTypeDefinition
 
-		//
+		mddtd.DamageTypeName = e.DamageTypeName
+		mddtd.IconPath = e.IconPath
+		mddtd.TransparentIconPath = e.TransparentIconPath
+		mddtd.ShowIcon = e.ShowIcon
+		mddtd.EnumValue = e.EnumValue
 
 		mddtdMap[e.Hash] = mddtd
 	}
 	miniMani["DestinyDamageTypeDefinition"] = mddtdMap
 	fmt.Printf("Done: %d\n", len(mddtdMap))
 
-	fmt.Println()
-	fmt.Println("Combatant Definitions")
+	fmt.Printf("Combatant Definitions... ")
 	mdcombatdMap := make(map[int64]models.MiniDestinyCombatantDefinition)
 	for _, e := range manifest.Manifest[29].DestinyCombatantDefinition {
 		var mdcombatd models.MiniDestinyCombatantDefinition
 
-		//
+		mdcombatd.Icon = e.Icon
+		mdcombatd.CombatantName = e.CombatantName
+		mdcombatd.Description = e.Description
+		mdcombatd.Image = e.Image
 
 		mdcombatdMap[e.Hash] = mdcombatd
 	}
 	miniMani["DestinyCombatantDefinition"] = mdcombatdMap
 	fmt.Printf("Done: %d\n", len(mdcombatdMap))
 
-	fmt.Println()
-	fmt.Println("Activity Category Definitions")
+	fmt.Printf("Activity Category Definitions... ")
 	mdacdMap := make(map[int64]models.MiniDestinyActivityCategoryDefinition)
 	for _, e := range manifest.Manifest[30].DestinyActivityCategoryDefinition {
 		var mdacd models.MiniDestinyActivityCategoryDefinition
 
-		//
+		mdacd.Title = e.Title
+		mdacd.HelpTitle = e.HelpTitle
+		mdacd.Description = e.Description
+		mdacd.Image = e.Image
+		mdacd.ParentHashes = e.ParentHashes
 
 		mdacdMap[e.Hash] = mdacd
 	}
@@ -629,6 +626,7 @@ func main() {
 	}
 
 	// Convert the new manifest to .json and write the file
-	b, _ := json.Marshal(miniMani)
-	ioutil.WriteFile("models.MiniMani.json", b, 0644)
+	// b, _ := json.Marshal(miniMani)
+	b, _ := json.MarshalIndent(miniMani, "", "    ")
+	ioutil.WriteFile("MiniMani.json", b, 0644)
 }
