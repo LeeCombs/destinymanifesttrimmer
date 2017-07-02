@@ -333,7 +333,7 @@ type MiniDestinyRecordBookDefinition struct {
 	DisplayName        string
 	DisplayDescription string
 	UnavailableReason  string
-	PRogressionHash    int64
+	ProgressionHash    int64
 	RecordCount        int
 	Icon               string
 	ItemHash           int64

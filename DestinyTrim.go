@@ -448,17 +448,6 @@ func main() {
 	miniMani["DestinyTriumphSetDefinition"] = mdtsMap
 	fmt.Printf("Done: %d\n", len(mdtsMap))
 
-	// Continue Here
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
 	fmt.Printf("Item Category Definitions... ")
 	mdicdMap := make(map[int64]models.MiniDestinyItemCategoryDefinition)
 	for _, e := range manifest.Manifest[25].DestinyItemCategoryDefinition {
@@ -565,29 +554,53 @@ func main() {
 	//
 	//
 
-	fmt.Println()
-	fmt.Println("Record Definitions")
-	for i, e := range manifest.Manifest[31].DestinyRecordDefinition {
-		if i < 10 {
-			fmt.Println(i, e.DisplayName)
-		}
-	}
+	fmt.Printf("Record Definitions... ")
+	mdrecordMap := make(map[int64]models.MiniDestinyRecordDefinition)
+	for _, e := range manifest.Manifest[31].DestinyRecordDefinition {
+		var mdrecord models.MiniDestinyRecordDefinition
 
-	fmt.Println()
-	fmt.Println("Record Book Definitions")
-	for i, e := range manifest.Manifest[32].DestinyRecordBookDefinition {
-		if i < 10 {
-			fmt.Println(i, e.DisplayName)
-		}
-	}
+		mdrecord.DisplayName = e.DisplayName
+		mdrecord.Description = e.Description
+		mdrecord.Icon = e.Icon
+		mdrecord.RecordValueUIStyle = e.RecordValueUIStyle
 
-	fmt.Println()
-	fmt.Println("Bond Definitions")
-	for i, e := range manifest.Manifest[33].DestinyBondDefinition {
-		if i < 10 {
-			fmt.Println(i, e.Hash)
-		}
+		mdrecordMap[e.Hash] = mdrecord
 	}
+	miniMani["DestinyRecordDefinition"] = mdrecordMap
+	fmt.Printf("Done: %d\n", len(mdrecordMap))
+
+	fmt.Printf("Record Book Definitions... ")
+	mdrecordbookMap := make(map[int64]models.MiniDestinyRecordBookDefinition)
+	for _, e := range manifest.Manifest[32].DestinyRecordBookDefinition {
+		var mdrecordbook models.MiniDestinyRecordBookDefinition
+
+		mdrecordbook.DisplayName = e.DisplayName
+		mdrecordbook.DisplayDescription = e.DisplayDescription
+		mdrecordbook.UnavailableReason = e.UnavailableReason
+		mdrecordbook.ProgressionHash = e.ProgressionHash
+		mdrecordbook.RecordCount = e.RecordCount
+		mdrecordbook.Icon = e.Icon
+		mdrecordbook.ItemHash = e.ItemHash
+
+		mdrecordbookMap[e.Hash] = mdrecordbook
+	}
+	miniMani["DestinyRecordBookDefinition"] = mdrecordbookMap
+	fmt.Printf("Done: %d\n", len(mdrecordbookMap))
+
+	fmt.Printf("Bond Definitions... ")
+	mdbondMap := make(map[int64]models.MiniDestinyBondDefinition)
+	for _, e := range manifest.Manifest[33].DestinyBondDefinition {
+		var mdbond models.MiniDestinyBondDefinition
+
+		mdbond.DisplayIcon = e.DisplayIcon
+		mdbond.ProvidedUnlockHash = e.ProvidedUnlockHash
+		mdbond.ProvidedUnlockValueHash = e.ProvidedUnlockValueHash
+		mdbond.ShowInAdvisor = e.ShowInAdvisor
+
+		mdbondMap[e.Hash] = mdbond
+	}
+	miniMani["DestinyBondDefinition"] = mdbondMap
+	fmt.Printf("Done: %d\n", len(mdbondMap))
 
 	// Continue Here
 	//
@@ -603,25 +616,24 @@ func main() {
 	fmt.Println()
 	fmt.Println("Location Definitions")
 	for i, e := range manifest.Manifest[34].DestinyLocationDefinition {
-		if i < 10 {
-			fmt.Println(i, e.Hash)
+		if i < 0 {
+			fmt.Println(i, e)
 		}
 	}
 
 	fmt.Println()
 	fmt.Println("Grimoire Definitions")
-	for i, _ := range manifest.Manifest[35].DestinyGrimoireDefinition {
-		if i < 10 {
-			fmt.Println(i)
-			// fmt.Println(i, e.ThemeCollection)
+	for i, e := range manifest.Manifest[35].DestinyGrimoireDefinition {
+		if i < 0 {
+			fmt.Println(i, e)
 		}
 	}
 
 	fmt.Println()
 	fmt.Println("Grimoire Card Definitions")
 	for i, e := range manifest.Manifest[36].DestinyGrimoireCardDefinition {
-		if i < 10 {
-			fmt.Println(i, e.CardName)
+		if i < 0 {
+			fmt.Println(i, e)
 		}
 	}
 
