@@ -602,40 +602,48 @@ func main() {
 	miniMani["DestinyBondDefinition"] = mdbondMap
 	fmt.Printf("Done: %d\n", len(mdbondMap))
 
-	// Continue Here
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	fmt.Printf("Location Definitions... ")
+	mdlocMap := make(map[int64]models.MiniDestinyLocationDefinition)
+	for _, e := range manifest.Manifest[34].DestinyLocationDefinition {
+		var mdloc models.MiniDestinyLocationDefinition
 
-	fmt.Println()
-	fmt.Println("Location Definitions")
-	for i, e := range manifest.Manifest[34].DestinyLocationDefinition {
-		if i < 0 {
-			fmt.Println(i, e)
-		}
-	}
+		mdloc.LocationHash = e.LocationHash
 
-	fmt.Println()
-	fmt.Println("Grimoire Definitions")
-	for i, e := range manifest.Manifest[35].DestinyGrimoireDefinition {
-		if i < 0 {
-			fmt.Println(i, e)
-		}
+		mdlocMap[e.Hash] = mdloc
 	}
+	miniMani["DestinyLocationDefinition"] = mdlocMap
+	fmt.Printf("Done: %d\n", len(mdlocMap))
 
-	fmt.Println()
-	fmt.Println("Grimoire Card Definitions")
-	for i, e := range manifest.Manifest[36].DestinyGrimoireCardDefinition {
-		if i < 0 {
-			fmt.Println(i, e)
-		}
+	fmt.Printf("Grimoire Definitions... ")
+	mdgrimMap := make(map[int64]models.MiniDestinyGrimoireDefinition)
+	for i, _ := range manifest.Manifest[35].DestinyGrimoireDefinition {
+		var mdgrim models.MiniDestinyGrimoireDefinition
+
+		// Nothing for now
+
+		mdgrimMap[int64(i)] = mdgrim
 	}
+	miniMani["DestinyGrimoireDefinition"] = mdgrimMap
+	fmt.Printf("Done: %d\n", len(mdgrimMap))
+
+	fmt.Printf("Grimoire Card Definitions... ")
+	mdgrimcardMap := make(map[int64]models.MiniDestinyGrimoireCardDefinition)
+	for _, e := range manifest.Manifest[36].DestinyGrimoireCardDefinition {
+		var mdgrimcard models.MiniDestinyGrimoireCardDefinition
+
+		mdgrimcard.CardID = e.CardID
+		mdgrimcard.CardName = e.CardName
+		mdgrimcard.CardIntro = e.CardIntro
+		mdgrimcard.CardDescription = e.CardDescription
+		mdgrimcard.CardLabel = e.CardLabel
+		mdgrimcard.UnlockHowToText = e.UnlockHowToText
+		mdgrimcard.UnlockFlagHash = e.UnlockFlagHash
+		mdgrimcard.Points = e.Points
+
+		mdgrimcardMap[int64(e.CardID)] = mdgrimcard
+	}
+	miniMani["DestinyGrimoireCardDefinition"] = mdgrimcardMap
+	fmt.Printf("Done: %d\n", len(mdgrimcardMap))
 
 	// Convert the new manifest to .json and write the file
 	// b, _ := json.Marshal(miniMani)
