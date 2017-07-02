@@ -459,29 +459,53 @@ func main() {
 	//
 	//
 
-	fmt.Println()
-	fmt.Println("Item Category Definitions")
-	for i, e := range manifest.Manifest[25].DestinyItemCategoryDefinition {
-		if i < 10 {
-			fmt.Println(i, e.Identifier)
-		}
-	}
+	fmt.Printf("Item Category Definitions... ")
+	mdicdMap := make(map[int64]models.MiniDestinyItemCategoryDefinition)
+	for _, e := range manifest.Manifest[25].DestinyItemCategoryDefinition {
+		var mdicd models.MiniDestinyItemCategoryDefinition
 
-	fmt.Println()
-	fmt.Println("Reward Source Definitions")
-	for i, e := range manifest.Manifest[26].DestinyRewardSourceDefinition {
-		if i < 10 {
-			fmt.Println(i, e.SourceName)
-		}
-	}
+		mdicd.Visible = e.Visible
+		mdicd.Title = e.Title
+		mdicd.ShortTitle = e.ShortTitle
+		mdicd.GrantDestinyItemType = e.GrantDestinyItemType
+		mdicd.GrantDestinySubType = e.GrantDestinySubType
+		mdicd.GrantDestinyClass = e.GrantDestinyClass
 
-	fmt.Println()
-	fmt.Println("Objective Definitions")
-	for i, e := range manifest.Manifest[27].DestinyObjectiveDefinition {
-		if i < 10 {
-			fmt.Println(i, e.DisplayDescription)
-		}
+		mdicdMap[e.Hash] = mdicd
 	}
+	miniMani["DestinyItemCategoryDefinition"] = mdicdMap
+	fmt.Printf("Done: %d\n", len(mdicdMap))
+
+	fmt.Printf("Reward Source Definitions... ")
+	mdrsdMap := make(map[int64]models.MiniDestinyRewardSourceDefinition)
+	for _, e := range manifest.Manifest[26].DestinyRewardSourceDefinition {
+		var mdrsd models.MiniDestinyRewardSourceDefinition
+
+		mdrsd.Category = e.Category
+		mdrsd.SourceName = e.SourceName
+		mdrsd.Description = e.Description
+		mdrsd.Icon = e.Icon
+
+		mdrsdMap[e.Hash] = mdrsd
+	}
+	miniMani["DestinyRewardSourceDefinition"] = mdrsdMap
+	fmt.Printf("Done: %d\n", len(mdrsdMap))
+
+	fmt.Printf("Objective Definitions... ")
+	mdodMap := make(map[int64]models.MiniDestinyObjectiveDefinition)
+	for _, e := range manifest.Manifest[27].DestinyObjectiveDefinition {
+		var mdod models.MiniDestinyObjectiveDefinition
+
+		mdod.DisplayDescription = e.DisplayDescription
+		mdod.UnlockValueHash = e.UnlockValueHash
+		mdod.VendorHash = e.VendorHash
+		mdod.VendorCategoryHash = e.VendorCategoryHash
+		mdod.LocationHash = e.LocationHash
+
+		mdodMap[e.Hash] = mdod
+	}
+	miniMani["DestinyObjectiveDefinition"] = mdodMap
+	fmt.Printf("Done: %d\n", len(mdodMap))
 
 	// Continue Here
 	//
@@ -496,27 +520,53 @@ func main() {
 
 	fmt.Println()
 	fmt.Println("Damage Type Definitions")
-	for i, e := range manifest.Manifest[28].DestinyDamageTypeDefinition {
-		if i < 10 {
-			fmt.Println(i, e.DamageTypeName)
-		}
+	mddtdMap := make(map[int64]models.MiniDestinyDamageTypeDefinition)
+	for _, e := range manifest.Manifest[28].DestinyDamageTypeDefinition {
+		var mddtd models.MiniDestinyDamageTypeDefinition
+
+		//
+
+		mddtdMap[e.Hash] = mddtd
 	}
+	miniMani["DestinyDamageTypeDefinition"] = mddtdMap
+	fmt.Printf("Done: %d\n", len(mddtdMap))
 
 	fmt.Println()
 	fmt.Println("Combatant Definitions")
-	for i, e := range manifest.Manifest[29].DestinyCombatantDefinition {
-		if i < 10 {
-			fmt.Println(i, e.CombatantName)
-		}
+	mdcombatdMap := make(map[int64]models.MiniDestinyCombatantDefinition)
+	for _, e := range manifest.Manifest[29].DestinyCombatantDefinition {
+		var mdcombatd models.MiniDestinyCombatantDefinition
+
+		//
+
+		mdcombatdMap[e.Hash] = mdcombatd
 	}
+	miniMani["DestinyCombatantDefinition"] = mdcombatdMap
+	fmt.Printf("Done: %d\n", len(mdcombatdMap))
 
 	fmt.Println()
 	fmt.Println("Activity Category Definitions")
-	for i, e := range manifest.Manifest[30].DestinyActivityCategoryDefinition {
-		if i < 10 {
-			fmt.Println(i, e.Identifier)
-		}
+	mdacdMap := make(map[int64]models.MiniDestinyActivityCategoryDefinition)
+	for _, e := range manifest.Manifest[30].DestinyActivityCategoryDefinition {
+		var mdacd models.MiniDestinyActivityCategoryDefinition
+
+		//
+
+		mdacdMap[e.Hash] = mdacd
 	}
+	miniMani["DestinyActivityCategoryDefinition"] = mdacdMap
+	fmt.Printf("Done: %d\n", len(mdacdMap))
+
+	// Continue Here
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	fmt.Println()
 	fmt.Println("Record Definitions")
@@ -541,6 +591,17 @@ func main() {
 			fmt.Println(i, e.Hash)
 		}
 	}
+
+	// Continue Here
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	fmt.Println()
 	fmt.Println("Location Definitions")
