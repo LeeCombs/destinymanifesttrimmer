@@ -21,8 +21,6 @@ func main() {
 	}
 	json.Unmarshal(file, &manifest)
 
-	fmt.Println(manifest.DestinyActivityCategoryDefinition."1025694749".Title)
-
 	// Initialize the output vars
 	miniMani := make(map[string]interface{})
 
@@ -217,15 +215,17 @@ func main() {
 	for _, e := range manifest.Manifest[11].DestinyHistoricalStatsDefinition {
 		var mdhsd models.MiniDestinyHistoricalStatsDefinition
 
-		mdhsd.StatID = e.StatID
-		mdhsd.StatName = e.StatName
-		mdhsd.StatDescription = e.StatDescription
-		mdhsd.Group = e.Group
-		mdhsd.Category = e.Category
-		mdhsd.UnitType = e.UnitType
-		mdhsd.UnitLabel = e.UnitLabel
-		mdhsd.Weight = e.Weight
-		mdhsd.IconImage = e.IconImage
+		/*
+			mdhsd.StatID = e.StatID
+			mdhsd.StatName = e.StatName
+			mdhsd.StatDescription = e.StatDescription
+			mdhsd.Group = e.Group
+			mdhsd.Category = e.Category
+			mdhsd.UnitType = e.UnitType
+			mdhsd.UnitLabel = e.UnitLabel
+			mdhsd.Weight = e.Weight
+			mdhsd.IconImage = e.IconImage
+		*/
 
 		mdhsdMap[e.StatID] = mdhsd
 	}
@@ -649,7 +649,7 @@ func main() {
 	fmt.Printf("Done: %d\n", len(mdgrimcardMap))
 
 	// Convert the new manifest to .json and write the file
-	// b, _ := json.Marshal(miniMani)
-	b, _ := json.MarshalIndent(miniMani, "", "    ")
+	b, _ := json.Marshal(miniMani)
+	// b, _ := json.MarshalIndent(miniMani, "", "    ")
 	ioutil.WriteFile("MiniMani.json", b, 0644)
 }
