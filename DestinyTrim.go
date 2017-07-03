@@ -456,6 +456,7 @@ func main() {
 		mdicd.Visible = e.Visible
 		mdicd.Title = e.Title
 		mdicd.ShortTitle = e.ShortTitle
+		mdicd.Description = e.Description
 		mdicd.GrantDestinyItemType = e.GrantDestinyItemType
 		mdicd.GrantDestinySubType = e.GrantDestinySubType
 		mdicd.GrantDestinyClass = e.GrantDestinyClass
