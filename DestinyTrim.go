@@ -3,11 +3,23 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/fatih/structs"
 	"github.com/leecombs/destinymanifesttrimmer/models"
 	"io/ioutil"
 	"log"
 	_ "os"
+	_ "reflect"
 )
+
+func refl(mini interface{}, whole interface{}) {
+	miniS := structs.New(mini)
+	wholeS := structs.New(whole)
+
+	for _, e := range miniS.Names() {
+		miniS.Field(e).Set(wholeS.Field(e).Value())
+	}
+
+}
 
 func main() {
 	fmt.Println("Running trimmer")
@@ -28,7 +40,16 @@ func main() {
 	fmt.Printf("Activity Definitions... ")
 	mdadMap := make(map[int64]models.MiniDestinyActivityDefinition)
 	for _, e := range manifest.Manifest[0].DestinyActivityDefinition {
+
 		var mdad models.MiniDestinyActivityDefinition
+
+		fmt.Println()
+		fmt.Println("premdad", mdad)
+
+		refl(&mdad, &e)
+
+		fmt.Println()
+		fmt.Println("postmdad", mdad)
 
 		mdad.ActivityName = e.ActivityName
 		mdad.ActivityDescription = e.ActivityDescription
@@ -39,6 +60,11 @@ func main() {
 		mdad.ActivityTypeHash = int64(e.ActivityTypeHash)
 		mdad.Rewards = e.Rewards
 		mdad.Skulls = e.Skulls
+
+		fmt.Println()
+		fmt.Println("originalMethodmdad", mdad)
+
+		return
 
 		mdadMap[e.Hash] = mdad
 	}
