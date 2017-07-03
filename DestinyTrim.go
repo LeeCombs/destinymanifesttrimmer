@@ -21,6 +21,8 @@ func main() {
 	}
 	json.Unmarshal(file, &manifest)
 
+	fmt.Println(manifest.DestinyActivityCategoryDefinition."1025694749".Title)
+
 	// Initialize the output vars
 	miniMani := make(map[string]interface{})
 
