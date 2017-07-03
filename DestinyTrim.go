@@ -293,7 +293,7 @@ func main() {
 		mddd.DestinationDescription = e.DestinationDescription
 		mddd.Icon = e.Icon
 		mddd.PlaceHash = e.PlaceHash
-		mddd.LocationIndentifier = e.LocationIdentifier
+		mddd.LocationIdentifier = e.LocationIdentifier
 
 		mdddMap[e.Hash] = mddd
 	}
