@@ -187,7 +187,7 @@ type MiniDestinyDestinationDefinition struct {
 	DestinationDescription string
 	Icon                   string
 	PlaceHash              int64
-	LocationIndentifier    string
+	LocationIdentifier     string
 }
 
 type MiniDestinyPlaceDefinition struct {

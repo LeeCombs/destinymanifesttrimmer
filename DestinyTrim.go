@@ -16,6 +16,7 @@ func refl(mini interface{}, whole interface{}) {
 	wholeS := structs.New(whole)
 
 	for _, e := range miniS.Names() {
+		// fmt.Println(e)
 		miniS.Field(e).Set(wholeS.Field(e).Value())
 	}
 
@@ -40,32 +41,8 @@ func main() {
 	fmt.Printf("Activity Definitions... ")
 	mdadMap := make(map[int64]models.MiniDestinyActivityDefinition)
 	for _, e := range manifest.Manifest[0].DestinyActivityDefinition {
-
 		var mdad models.MiniDestinyActivityDefinition
-
-		fmt.Println()
-		fmt.Println("premdad", mdad)
-
 		refl(&mdad, &e)
-
-		fmt.Println()
-		fmt.Println("postmdad", mdad)
-
-		mdad.ActivityName = e.ActivityName
-		mdad.ActivityDescription = e.ActivityDescription
-		mdad.Icon = e.Icon
-		mdad.ActivityLevel = e.ActivityLevel
-		mdad.DestinationHash = int64(e.DestinationHash)
-		mdad.PlaceHash = int64(e.PlaceHash)
-		mdad.ActivityTypeHash = int64(e.ActivityTypeHash)
-		mdad.Rewards = e.Rewards
-		mdad.Skulls = e.Skulls
-
-		fmt.Println()
-		fmt.Println("originalMethodmdad", mdad)
-
-		return
-
 		mdadMap[e.Hash] = mdad
 	}
 	miniMani["DestinyActivityDefinition"] = mdadMap
@@ -75,12 +52,7 @@ func main() {
 	mdatdMap := make(map[int64]models.MiniDestinyActivityTypeDefinition)
 	for _, e := range manifest.Manifest[1].DestinyActivityTypeDefinition {
 		var mdatd models.MiniDestinyActivityTypeDefinition
-
-		mdatd.Identifier = e.Identifier
-		mdatd.ActivityTypeName = e.ActivityTypeName
-		mdatd.ActivityTypeDescription = e.ActivityTypeDescription
-		mdatd.Icon = e.Icon
-
+		refl(&mdatd, &e)
 		mdatdMap[e.Hash] = mdatd
 	}
 	miniMani["DestinyActivityTypeDefinition"] = mdatdMap
@@ -90,10 +62,7 @@ func main() {
 	mdcdMap := make(map[int64]models.MiniDestinyClassDefinition)
 	for _, e := range manifest.Manifest[2].DestinyClassDefinition {
 		var mdcd models.MiniDestinyClassDefinition
-
-		mdcd.ClassName = e.ClassName
-		mdcd.ClassType = e.ClassType
-
+		refl(&mdcd, &e)
 		mdcdMap[e.Hash] = mdcd
 	}
 	miniMani["DestinyClassDefinition"] = mdcdMap
@@ -103,10 +72,7 @@ func main() {
 	mdgdMap := make(map[int64]models.MiniDestinyGenderDefinition)
 	for _, e := range manifest.Manifest[3].DestinyGenderDefinition {
 		var mdgd models.MiniDestinyGenderDefinition
-
-		mdgd.GenderName = e.GenderName
-		mdgd.GenderType = e.GenderType
-
+		refl(&mdgd, &e)
 		mdgdMap[e.Hash] = mdgd
 	}
 	miniMani["DestinyGenderDefinition"] = mdgdMap
@@ -116,15 +82,7 @@ func main() {
 	mibdMap := make(map[int64]models.MiniDestinyInventoryBucketDefinition)
 	for _, e := range manifest.Manifest[4].DestinyInventoryBucketDefinition {
 		var mibd models.MiniDestinyInventoryBucketDefinition
-
-		mibd.BucketName = e.BucketName
-		mibd.BucketDescription = e.BucketDescription
-		mibd.ItemCount = e.ItemCount
-		mibd.Category = e.Category
-		mibd.Location = e.Location
-		mibd.HasTransferDestination = e.HasTransferDestination
-		mibd.Enabled = e.Enabled
-
+		refl(&mibd, &e)
 		mibdMap[e.Hash] = mibd
 	}
 	miniMani["DestinyInventoryBucketDefinition"] = mibdMap
@@ -178,13 +136,7 @@ func main() {
 	mdrdMap := make(map[int64]models.MiniDestinyRaceDefinition)
 	for _, e := range manifest.Manifest[7].DestinyRaceDefinition {
 		var mdrd models.MiniDestinyRaceDefinition
-
-		mdrd.RaceType = e.RaceType
-		mdrd.RaceName = e.RaceName
-		mdrd.RaceNameMale = e.RaceNameMale
-		mdrd.RaceNameFemale = e.RaceNameFemale
-		mdrd.RaceDescription = e.RaceDescription
-
+		refl(&mdrd, &e)
 		mdrdMap[e.Hash] = mdrd
 	}
 	miniMani["DestinyRaceDefinition"] = mdrdMap
@@ -194,10 +146,7 @@ func main() {
 	mtgdMap := make(map[int64]models.MiniDestinyTalentGridDefinition)
 	for _, e := range manifest.Manifest[8].DestinyTalentGridDefinition {
 		var mtdg models.MiniDestinyTalentGridDefinition
-
-		mtdg.ProgressionHash = int64(e.ProgressionHash)
-		mtdg.Nodes = e.Nodes
-
+		refl(&mtdg, &e)
 		mtgdMap[e.Hash] = mtdg
 	}
 	miniMani["DestinyTalentGridDefinition"] = mtgdMap
@@ -207,10 +156,7 @@ func main() {
 	mdufdMap := make(map[int64]models.MiniDestinyUnlockFlagDefinition)
 	for _, e := range manifest.Manifest[9].DestinyUnlockFlagDefinition {
 		var mdufd models.MiniDestinyUnlockFlagDefinition
-
-		mdufd.DisplayName = e.DisplayName
-		mdufd.DisplayDescription = e.DisplayDescription
-
+		refl(&mdufd, &e)
 		mdufdMap[e.Hash] = mdufd
 	}
 	miniMani["DestinyTalentGridDefinition"] = mdufdMap
@@ -240,17 +186,7 @@ func main() {
 	mdhsdMap := make(map[string]models.MiniDestinyHistoricalStatsDefinition)
 	for _, e := range manifest.Manifest[11].DestinyHistoricalStatsDefinition {
 		var mdhsd models.MiniDestinyHistoricalStatsDefinition
-
-		mdhsd.StatID = e.StatID
-		mdhsd.StatName = e.StatName
-		mdhsd.StatDescription = e.StatDescription
-		mdhsd.Group = e.Group
-		mdhsd.Category = e.Category
-		mdhsd.UnitType = e.UnitType
-		mdhsd.UnitLabel = e.UnitLabel
-		mdhsd.Weight = e.Weight
-		mdhsd.IconImage = e.IconImage
-
+		refl(&mdhsd, &e)
 		mdhsdMap[e.StatID] = mdhsd
 	}
 	miniMani["DestinyHistoricalStatsDefinition"] = mdhsdMap
@@ -260,14 +196,7 @@ func main() {
 	mddbdMap := make(map[int64]models.MiniDestinyDirectorBookDefinition)
 	for _, e := range manifest.Manifest[12].DestinyDirectorBookDefinition {
 		var mddbd models.MiniDestinyDirectorBookDefinition
-
-		mddbd.BookName = e.BookName
-		mddbd.BookDescription = e.BookDescription
-		mddbd.BookNumber = e.BookNumber
-		mddbd.Visible = e.Visible
-		mddbd.IsOverview = e.IsOverview
-		mddbd.DestinationHash = e.DestinationHash
-
+		refl(&mddbd, &e)
 		mddbdMap[e.Hash] = mddbd
 	}
 	miniMani["DestinyDirectorBookDefinition"] = mddbdMap
@@ -277,11 +206,7 @@ func main() {
 	mdsdMap := make(map[int64]models.MiniDestinyStatDefinition)
 	for _, e := range manifest.Manifest[13].DestinyStatDefinition {
 		var mdsd models.MiniDestinyStatDefinition
-
-		mdsd.StatName = e.StatName
-		mdsd.StatDescription = e.StatDescription
-		mdsd.Icon = e.Icon
-
+		refl(&mdsd, &e)
 		mdsdMap[e.Hash] = mdsd
 	}
 	miniMani["DestinyStatDefinition"] = mdsdMap
@@ -313,14 +238,7 @@ func main() {
 	mdddMap := make(map[int64]models.MiniDestinyDestinationDefinition)
 	for _, e := range manifest.Manifest[15].DestinyDestinationDefinition {
 		var mddd models.MiniDestinyDestinationDefinition
-
-		mddd.DestinationName = e.DestinationName
-		mddd.DestinationIdentifier = e.DestinationIdentifier
-		mddd.DestinationDescription = e.DestinationDescription
-		mddd.Icon = e.Icon
-		mddd.PlaceHash = e.PlaceHash
-		mddd.LocationIndentifier = e.LocationIdentifier
-
+		refl(&mddd, &e)
 		mdddMap[e.Hash] = mddd
 	}
 	miniMani["DestinyDestinationDefinition"] = mdddMap
@@ -330,11 +248,7 @@ func main() {
 	mindefPlaceMap := make(map[int64]models.MiniDestinyPlaceDefinition)
 	for _, e := range manifest.Manifest[16].DestinyPlaceDefinition {
 		var mindefPlace models.MiniDestinyPlaceDefinition
-
-		mindefPlace.PlaceName = e.PlaceName
-		mindefPlace.PlaceDescription = e.PlaceDescription
-		mindefPlace.Icon = e.Icon
-
+		refl(&mindefPlace, &e)
 		mindefPlaceMap[e.Hash] = mindefPlace
 	}
 	miniMani["DestinyPlaceDefinition"] = mindefPlaceMap
@@ -344,15 +258,7 @@ func main() {
 	mindefActBunMap := make(map[int64]models.MiniDestinyActivityBundleDefinition)
 	for _, e := range manifest.Manifest[17].DestinyActivityBundleDefinition {
 		var mindefActBun models.MiniDestinyActivityBundleDefinition
-
-		mindefActBun.ActivityName = e.ActivityName
-		mindefActBun.ActivityDescription = e.ActivityDescription
-		mindefActBun.ActivityTypeHash = e.ActivityTypeHash
-		mindefActBun.ActivityHashes = e.ActivityHashes
-		mindefActBun.Icon = e.Icon
-		mindefActBun.DestinationHash = e.DestinationHash
-		mindefActBun.PlaceHash = e.PlaceHash
-
+		refl(&mindefActBun, &e)
 		mindefActBunMap[e.Hash] = mindefActBun
 	}
 	miniMani["DestinyActivityBundleDefinition"] = mindefActBunMap
@@ -362,9 +268,7 @@ func main() {
 	mindefStatGrpMap := make(map[int64]models.MiniDestinyStatGroupDefinition)
 	for _, e := range manifest.Manifest[18].DestinyStatGroupDefinition {
 		var mindefStatGrp models.MiniDestinyStatGroupDefinition
-
-		mindefStatGrp.MaximumValue = e.MaximumValue
-
+		refl(&mindefStatGrp, &e)
 		mindefStatGrpMap[e.Hash] = mindefStatGrp
 	}
 	miniMani["DestinyStatGroupDefinition"] = mindefStatGrpMap
@@ -374,23 +278,7 @@ func main() {
 	mindefSpEvtMap := make(map[int64]models.MiniDestinySpecialEventDefinition)
 	for _, e := range manifest.Manifest[19].DestinySpecialEventDefinition {
 		var mindefSpEvt models.MiniDestinySpecialEventDefinition
-
-		mindefSpEvt.Title = e.Title
-		mindefSpEvt.Subtitle = e.Subtitle
-		mindefSpEvt.Description = e.Description
-		mindefSpEvt.Link = e.Link
-		mindefSpEvt.Icon = e.Icon
-		mindefSpEvt.BackgroundImageWeb = e.BackgroundImageWeb
-		mindefSpEvt.BackgroundImageMobile = e.BackgroundImageMobile
-		mindefSpEvt.ProgressionHash = e.ProgressionHash
-		mindefSpEvt.VendorHash = e.VendorHash
-		mindefSpEvt.FactionHash = e.FactionHash
-		mindefSpEvt.ActiveUnlockValueHash = e.ActiveUnlockValueHash
-		mindefSpEvt.PlaylistActivityHash = e.PlaylistActivityHash
-		mindefSpEvt.UnlockEventHash = e.UnlockEventHash
-		mindefSpEvt.BountyHashes = e.BountyHashes
-		mindefSpEvt.QuestHashes = e.QuestHashes
-
+		refl(&mindefSpEvt, &e)
 		mindefSpEvtMap[e.Hash] = mindefSpEvt
 	}
 	miniMani["DestinySpecialEventDefinition"] = mindefSpEvtMap
@@ -400,12 +288,7 @@ func main() {
 	mindefFactionMap := make(map[int64]models.MiniDestinyFactionDefinition)
 	for _, e := range manifest.Manifest[20].DestinyFactionDefinition {
 		var mindefFaction models.MiniDestinyFactionDefinition
-
-		mindefFaction.FactionName = e.FactionName
-		mindefFaction.FactionDescription = e.FactionDescription
-		mindefFaction.FactionIcon = e.FactionIcon
-		mindefFaction.ProgressionHash = e.ProgressionHash
-
+		refl(&mindefFaction, &e)
 		mindefFactionMap[e.Hash] = mindefFaction
 	}
 	miniMani["DestinyFactionDefinition"] = mindefFactionMap
@@ -415,11 +298,7 @@ func main() {
 	mindefVenCatMap := make(map[int64]models.MiniDestinyVendorCategoryDefinition)
 	for _, e := range manifest.Manifest[21].DestinyVendorCategoryDefinition {
 		var mindefVenCat models.MiniDestinyVendorCategoryDefinition
-
-		mindefVenCat.CategoryName = e.CategoryName
-		mindefVenCat.MobileBannerPath = e.MobileBannerPath
-		mindefVenCat.Identifier = e.Identifier
-
+		refl(&mindefVenCat, &e)
 		mindefVenCatMap[e.Hash] = mindefVenCat
 	}
 	miniMani["DestinyVendorCategoryDefinition"] = mindefVenCatMap
@@ -429,11 +308,7 @@ func main() {
 	mderdMap := make(map[int64]models.MiniDestinyEnemyRaceDefinition)
 	for _, e := range manifest.Manifest[22].DestinyEnemyRaceDefinition {
 		var mderd models.MiniDestinyEnemyRaceDefinition
-
-		mderd.RaceName = e.RaceName
-		mderd.Description = e.Description
-		mderd.IconPath = e.IconPath
-
+		refl(&mderd, &e)
 		mderdMap[e.Hash] = mderd
 	}
 	miniMani["DestinyEnemyRaceDefinition"] = mderdMap
@@ -443,11 +318,7 @@ func main() {
 	mdssdMap := make(map[int64]models.MiniDestinyScriptedSkullDefinition)
 	for _, e := range manifest.Manifest[23].DestinyScriptedSkullDefinition {
 		var mdssd models.MiniDestinyScriptedSkullDefinition
-
-		mdssd.SkullName = e.SkullName
-		mdssd.Description = e.Description
-		mdssd.IconPath = e.IconPath
-
+		refl(&mdssd, &e)
 		mdssdMap[e.Hash] = mdssd
 	}
 	miniMani["DestinyScriptedSkullDefinition"] = mdssdMap
@@ -457,18 +328,7 @@ func main() {
 	mdtsMap := make(map[int64]models.MiniDestinyTriumphSetDefinition)
 	for _, e := range manifest.Manifest[24].DestinyTriumphSetDefinition {
 		var mdts models.MiniDestinyTriumphSetDefinition
-
-		mdts.Title = e.Title
-		mdts.IconPath = e.IconPath
-		mdts.IncompleteSubtitle = e.IncompleteSubtitle
-		mdts.IncompleteDetails = e.IncompleteDetails
-		mdts.CompletedSubtitle = e.CompletedSubtitle
-		mdts.CompletedDetails = e.CompletedDetails
-		mdts.LockedSubtitle = e.LockedSubtitle
-		mdts.LockedDetails = e.LockedDetails
-		mdts.LockdownDate = e.LockdownDate
-		mdts.LockdownUnlockHash = e.LockdownUnlockHash
-
+		refl(&mdts, &e)
 		mdtsMap[e.Hash] = mdts
 	}
 	miniMani["DestinyTriumphSetDefinition"] = mdtsMap
@@ -478,14 +338,7 @@ func main() {
 	mdicdMap := make(map[int64]models.MiniDestinyItemCategoryDefinition)
 	for _, e := range manifest.Manifest[25].DestinyItemCategoryDefinition {
 		var mdicd models.MiniDestinyItemCategoryDefinition
-
-		mdicd.Visible = e.Visible
-		mdicd.Title = e.Title
-		mdicd.ShortTitle = e.ShortTitle
-		mdicd.GrantDestinyItemType = e.GrantDestinyItemType
-		mdicd.GrantDestinySubType = e.GrantDestinySubType
-		mdicd.GrantDestinyClass = e.GrantDestinyClass
-
+		refl(&mdicd, &e)
 		mdicdMap[e.Hash] = mdicd
 	}
 	miniMani["DestinyItemCategoryDefinition"] = mdicdMap
@@ -495,12 +348,7 @@ func main() {
 	mdrsdMap := make(map[int64]models.MiniDestinyRewardSourceDefinition)
 	for _, e := range manifest.Manifest[26].DestinyRewardSourceDefinition {
 		var mdrsd models.MiniDestinyRewardSourceDefinition
-
-		mdrsd.Category = e.Category
-		mdrsd.SourceName = e.SourceName
-		mdrsd.Description = e.Description
-		mdrsd.Icon = e.Icon
-
+		refl(&mdrsd, &e)
 		mdrsdMap[e.Hash] = mdrsd
 	}
 	miniMani["DestinyRewardSourceDefinition"] = mdrsdMap
@@ -510,13 +358,7 @@ func main() {
 	mdodMap := make(map[int64]models.MiniDestinyObjectiveDefinition)
 	for _, e := range manifest.Manifest[27].DestinyObjectiveDefinition {
 		var mdod models.MiniDestinyObjectiveDefinition
-
-		mdod.DisplayDescription = e.DisplayDescription
-		mdod.UnlockValueHash = e.UnlockValueHash
-		mdod.VendorHash = e.VendorHash
-		mdod.VendorCategoryHash = e.VendorCategoryHash
-		mdod.LocationHash = e.LocationHash
-
+		refl(&mdod, &e)
 		mdodMap[e.Hash] = mdod
 	}
 	miniMani["DestinyObjectiveDefinition"] = mdodMap
@@ -526,13 +368,7 @@ func main() {
 	mddtdMap := make(map[int64]models.MiniDestinyDamageTypeDefinition)
 	for _, e := range manifest.Manifest[28].DestinyDamageTypeDefinition {
 		var mddtd models.MiniDestinyDamageTypeDefinition
-
-		mddtd.DamageTypeName = e.DamageTypeName
-		mddtd.IconPath = e.IconPath
-		mddtd.TransparentIconPath = e.TransparentIconPath
-		mddtd.ShowIcon = e.ShowIcon
-		mddtd.EnumValue = e.EnumValue
-
+		refl(&mddtd, &e)
 		mddtdMap[e.Hash] = mddtd
 	}
 	miniMani["DestinyDamageTypeDefinition"] = mddtdMap
@@ -542,12 +378,7 @@ func main() {
 	mdcombatdMap := make(map[int64]models.MiniDestinyCombatantDefinition)
 	for _, e := range manifest.Manifest[29].DestinyCombatantDefinition {
 		var mdcombatd models.MiniDestinyCombatantDefinition
-
-		mdcombatd.Icon = e.Icon
-		mdcombatd.CombatantName = e.CombatantName
-		mdcombatd.Description = e.Description
-		mdcombatd.Image = e.Image
-
+		refl(&mdcombatd, &e)
 		mdcombatdMap[e.Hash] = mdcombatd
 	}
 	miniMani["DestinyCombatantDefinition"] = mdcombatdMap
@@ -557,39 +388,17 @@ func main() {
 	mdacdMap := make(map[int64]models.MiniDestinyActivityCategoryDefinition)
 	for _, e := range manifest.Manifest[30].DestinyActivityCategoryDefinition {
 		var mdacd models.MiniDestinyActivityCategoryDefinition
-
-		mdacd.Title = e.Title
-		mdacd.HelpTitle = e.HelpTitle
-		mdacd.Description = e.Description
-		mdacd.Image = e.Image
-		mdacd.ParentHashes = e.ParentHashes
-
+		refl(&mdacd, &e)
 		mdacdMap[e.Hash] = mdacd
 	}
 	miniMani["DestinyActivityCategoryDefinition"] = mdacdMap
 	fmt.Printf("Done: %d\n", len(mdacdMap))
 
-	// Continue Here
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
 	fmt.Printf("Record Definitions... ")
 	mdrecordMap := make(map[int64]models.MiniDestinyRecordDefinition)
 	for _, e := range manifest.Manifest[31].DestinyRecordDefinition {
 		var mdrecord models.MiniDestinyRecordDefinition
-
-		mdrecord.DisplayName = e.DisplayName
-		mdrecord.Description = e.Description
-		mdrecord.Icon = e.Icon
-		mdrecord.RecordValueUIStyle = e.RecordValueUIStyle
-
+		refl(&mdrecord, &e)
 		mdrecordMap[e.Hash] = mdrecord
 	}
 	miniMani["DestinyRecordDefinition"] = mdrecordMap
@@ -599,15 +408,7 @@ func main() {
 	mdrecordbookMap := make(map[int64]models.MiniDestinyRecordBookDefinition)
 	for _, e := range manifest.Manifest[32].DestinyRecordBookDefinition {
 		var mdrecordbook models.MiniDestinyRecordBookDefinition
-
-		mdrecordbook.DisplayName = e.DisplayName
-		mdrecordbook.DisplayDescription = e.DisplayDescription
-		mdrecordbook.UnavailableReason = e.UnavailableReason
-		mdrecordbook.ProgressionHash = e.ProgressionHash
-		mdrecordbook.RecordCount = e.RecordCount
-		mdrecordbook.Icon = e.Icon
-		mdrecordbook.ItemHash = e.ItemHash
-
+		refl(&mdrecordbook, &e)
 		mdrecordbookMap[e.Hash] = mdrecordbook
 	}
 	miniMani["DestinyRecordBookDefinition"] = mdrecordbookMap
@@ -617,12 +418,7 @@ func main() {
 	mdbondMap := make(map[int64]models.MiniDestinyBondDefinition)
 	for _, e := range manifest.Manifest[33].DestinyBondDefinition {
 		var mdbond models.MiniDestinyBondDefinition
-
-		mdbond.DisplayIcon = e.DisplayIcon
-		mdbond.ProvidedUnlockHash = e.ProvidedUnlockHash
-		mdbond.ProvidedUnlockValueHash = e.ProvidedUnlockValueHash
-		mdbond.ShowInAdvisor = e.ShowInAdvisor
-
+		refl(&mdbond, &e)
 		mdbondMap[e.Hash] = mdbond
 	}
 	miniMani["DestinyBondDefinition"] = mdbondMap
@@ -632,9 +428,7 @@ func main() {
 	mdlocMap := make(map[int64]models.MiniDestinyLocationDefinition)
 	for _, e := range manifest.Manifest[34].DestinyLocationDefinition {
 		var mdloc models.MiniDestinyLocationDefinition
-
-		mdloc.LocationHash = e.LocationHash
-
+		refl(&mdloc, &e)
 		mdlocMap[e.Hash] = mdloc
 	}
 	miniMani["DestinyLocationDefinition"] = mdlocMap
@@ -642,11 +436,9 @@ func main() {
 
 	fmt.Printf("Grimoire Definitions... ")
 	mdgrimMap := make(map[int64]models.MiniDestinyGrimoireDefinition)
-	for i, _ := range manifest.Manifest[35].DestinyGrimoireDefinition {
+	for i, e := range manifest.Manifest[35].DestinyGrimoireDefinition {
 		var mdgrim models.MiniDestinyGrimoireDefinition
-
-		// Nothing for now
-
+		refl(&mdgrim, &e)
 		mdgrimMap[int64(i)] = mdgrim
 	}
 	miniMani["DestinyGrimoireDefinition"] = mdgrimMap
@@ -656,16 +448,7 @@ func main() {
 	mdgrimcardMap := make(map[int64]models.MiniDestinyGrimoireCardDefinition)
 	for _, e := range manifest.Manifest[36].DestinyGrimoireCardDefinition {
 		var mdgrimcard models.MiniDestinyGrimoireCardDefinition
-
-		mdgrimcard.CardID = e.CardID
-		mdgrimcard.CardName = e.CardName
-		mdgrimcard.CardIntro = e.CardIntro
-		mdgrimcard.CardDescription = e.CardDescription
-		mdgrimcard.CardLabel = e.CardLabel
-		mdgrimcard.UnlockHowToText = e.UnlockHowToText
-		mdgrimcard.UnlockFlagHash = e.UnlockFlagHash
-		mdgrimcard.Points = e.Points
-
+		refl(&mdgrimcard, &e)
 		mdgrimcardMap[int64(e.CardID)] = mdgrimcard
 	}
 	miniMani["DestinyGrimoireCardDefinition"] = mdgrimcardMap
@@ -674,5 +457,5 @@ func main() {
 	// Convert the new manifest to .json and write the file
 	// b, _ := json.Marshal(miniMani)
 	b, _ := json.MarshalIndent(miniMani, "", "    ")
-	ioutil.WriteFile("MiniMani.json", b, 0644)
+	ioutil.WriteFile("MiniMani-NewConversion.json", b, 0644)
 }
