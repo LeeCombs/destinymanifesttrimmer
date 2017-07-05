@@ -9,12 +9,14 @@ import (
 	"math/rand"
 	_ "os"
 	"strconv"
+	"sync"
 	"time"
 )
 
-func writeToFile(filename string, data []byte, done chan bool) {
+func writeToFile(filename string, data []byte, ch chan bool, wg *sync.WaitGroup) {
 	fmt.Println("Writing File:", filename)
-	time.Sleep(time.Duration(rand.Int31n(1000)) * time.Millisecond * 10)
+	defer wg.Done()
+	time.Sleep(time.Duration(rand.Int31n(1000)) * time.Millisecond * 5)
 
 	err := ioutil.WriteFile(filename, data, 0644)
 	if err != nil {
@@ -22,7 +24,7 @@ func writeToFile(filename string, data []byte, done chan bool) {
 	}
 
 	fmt.Println("Done writing file:", filename)
-	done <- true
+	ch <- true
 }
 
 func main() {
@@ -45,14 +47,15 @@ func main() {
 
 	fmt.Println("Writing files...")
 
-	done := make(chan bool, 5)
-	for i := 0; i < 5; i++ {
+	numFiles := 5
+	fileWaitGroup := sync.WaitGroup{}
+	fileWaitGroup.Add(numFiles)
+	done := make(chan bool, numFiles)
+	for i := 0; i < numFiles; i++ {
 		filename := "MiniMani" + strconv.Itoa(i) + ".json"
-		go writeToFile(filename, b, done)
+		go writeToFile(filename, b, done, &fileWaitGroup)
 	}
-	for i := 0; i < 5; i++ {
-		<-done
-	}
+	fileWaitGroup.Wait()
 
 	fmt.Println("Done writing files. Enter to continue")
 	fmt.Scanln()
