@@ -39,6 +39,9 @@ func main() {
 	}
 	json.Unmarshal(file, &manifest)
 
+	// Initialize the output var
+	miniMani := make(map[string]interface{})
+
 	maniWaitGroup := sync.WaitGroup{}
 	maniWaitGroup.Add(len(manifest.Manifest))
 	for i, e := range manifest.Manifest {
@@ -65,6 +68,7 @@ func main() {
 
 					miniActMap[e.Hash] = miniAct
 				}
+				miniMani["MiniActivityDefinition"] = miniActMap
 				fmt.Println("Done Activity Definitions, Count:", len(miniActMap))
 			}()
 		case 1: // Activity Type
@@ -84,6 +88,7 @@ func main() {
 
 					miniActTypeMap[e.Hash] = miniActType
 				}
+				miniMani["MiniActivityTypeDefinition"] = miniActTypeMap
 				fmt.Println("Done Activity Type Definitions, Count:", len(miniActTypeMap))
 			}()
 		case 2: // Class
@@ -101,6 +106,7 @@ func main() {
 
 					miniClassMap[e.Hash] = miniClass
 				}
+				miniMani["MiniClassDefinition"] = miniClassMap
 				fmt.Println("Done Class Definitions, Count:", len(miniClassMap))
 			}()
 		case 3: // Gender
@@ -118,6 +124,7 @@ func main() {
 
 					miniGenderMap[e.Hash] = miniGender
 				}
+				miniMani["MiniGenderDefinition"] = miniGenderMap
 				fmt.Println("Done Gender Definitions, Count:", len(miniGenderMap))
 			}()
 		case 4: // Inv Bucket
@@ -152,6 +159,7 @@ func main() {
 
 					miniItemMap[e.Hash] = miniItem
 				}
+				miniMani["MiniItemDefinition"] = miniItemMap
 				fmt.Println("Done Item Definitions, Count:", len(miniItemMap))
 			}()
 		case 6: // Progression
@@ -176,6 +184,7 @@ func main() {
 
 					miniRaceMap[e.Hash] = miniRace
 				}
+				miniMani["MiniRaceDefinition"] = miniRaceMap
 				fmt.Println("Done Race Definitions, Count:", len(miniRaceMap))
 			}()
 		case 8: // Talent Grid
@@ -214,6 +223,7 @@ func main() {
 
 					miniStatMap[e.Hash] = miniStat
 				}
+				miniMani["MiniStatDefinition"] = miniStatMap
 				fmt.Println("Done Stat Definitions, Count:", len(miniStatMap))
 			}()
 		case 14: // Sandbox Perk
@@ -240,6 +250,7 @@ func main() {
 
 					miniPlaceMap[e.Hash] = miniPlace
 				}
+				miniMani["MiniPlaceDefinition"] = miniPlaceMap
 				fmt.Println("Done Place Definitions, Count:", len(miniPlaceMap))
 			}()
 		case 17: // Activity Bundle
@@ -271,6 +282,7 @@ func main() {
 
 					miniFactMap[e.Hash] = miniFact
 				}
+				miniMani["MiniFactionDefinition"] = miniFactMap
 				fmt.Println("Done Faction Definitions, Count:", len(miniFactMap))
 			}()
 		case 21: // Vendor Category
@@ -293,6 +305,7 @@ func main() {
 
 					miniEnemyRaceMap[e.Hash] = miniEnemyRace
 				}
+				miniMani["MiniEnemyRaceDefinition"] = miniEnemyRaceMap
 				fmt.Println("Done Enemy Race Definitions, Count:", len(miniEnemyRaceMap))
 			}()
 		case 23: // Scripted Skill
@@ -333,6 +346,7 @@ func main() {
 
 					miniDamTypeMap[e.Hash] = miniDamType
 				}
+				miniMani["MiniDamageDefinition"] = miniDamTypeMap
 				fmt.Println("Done Damage Type Definitions, Count:", len(miniDamTypeMap))
 			}()
 		case 29: // Combatant
@@ -352,6 +366,7 @@ func main() {
 
 					miniCombatantMap[e.Hash] = miniCombatant
 				}
+				miniMani["MiniCombatantDefinition"] = miniCombatantMap
 				fmt.Println("Done Combatant Definitions, Count:", len(miniCombatantMap))
 			}()
 		case 30: // Activity Category
@@ -389,13 +404,12 @@ func main() {
 	}
 	maniWaitGroup.Wait()
 	fmt.Println("Done reading manifest")
+	fmt.Println("Writing files...")
 
-	// Initialize the output vars
-	miniMani := make(map[string]interface{})
+	// Build the output .json file
 	b, _ := json.MarshalIndent(miniMani, "", "    ")
 
-	fmt.Println("Writing files...")
-	numFiles := 5
+	numFiles := 1
 	fileWaitGroup := sync.WaitGroup{}
 	fileWaitGroup.Add(numFiles)
 	for i := 0; i < numFiles; i++ {
