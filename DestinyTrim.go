@@ -6,29 +6,26 @@ import (
 	"github.com/leecombs/destinymanifesttrimmer/models"
 	"io/ioutil"
 	"log"
-	"math/rand"
-	_ "os"
 	"strconv"
 	"sync"
-	"time"
 )
 
+// Attempt to write a given file to disk, with goroutine support
 func writeToFile(filename string, data []byte, wg *sync.WaitGroup) {
 	fmt.Println("Writing File:", filename)
 	defer wg.Done()
-	time.Sleep(time.Duration(rand.Int31n(1000)) * time.Millisecond * 5)
 
 	err := ioutil.WriteFile(filename, data, 0644)
 	if err != nil {
 		log.Fatal("Write error:", err)
 	}
 
-	fmt.Println("Done writing file:", filename)
+	fmt.Println("Done writing file", filename)
 }
 
 func main() {
 	fmt.Println("Running trimmer")
-	fmt.Println("Reading Manifest.json")
+	fmt.Println("Reading Manifest.json...")
 
 	// Read and load the local manifest file
 	var manifest models.DestinyManifest
@@ -42,6 +39,7 @@ func main() {
 	// Initialize the output var
 	miniMani := make(map[string]interface{})
 
+	// Set up goroutines to read through the manifest data, then minify specific entries individually
 	maniWaitGroup := sync.WaitGroup{}
 	maniWaitGroup.Add(len(manifest.Manifest))
 	for i, e := range manifest.Manifest {
@@ -409,6 +407,9 @@ func main() {
 	// Build the output .json file
 	b, _ := json.MarshalIndent(miniMani, "", "    ")
 
+	// Setup go routines to write files individually
+	// Really only done as practice
+	// TODO: Add support for writing individual definitions to their own files
 	numFiles := 1
 	fileWaitGroup := sync.WaitGroup{}
 	fileWaitGroup.Add(numFiles)
