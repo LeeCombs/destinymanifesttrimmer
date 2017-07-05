@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-func writeToFile(filename string, data []byte, ch chan bool, wg *sync.WaitGroup) {
+func writeToFile(filename string, data []byte, wg *sync.WaitGroup) {
 	fmt.Println("Writing File:", filename)
 	defer wg.Done()
 	time.Sleep(time.Duration(rand.Int31n(1000)) * time.Millisecond * 5)
@@ -24,7 +24,6 @@ func writeToFile(filename string, data []byte, ch chan bool, wg *sync.WaitGroup)
 	}
 
 	fmt.Println("Done writing file:", filename)
-	ch <- true
 }
 
 func main() {
@@ -50,10 +49,9 @@ func main() {
 	numFiles := 5
 	fileWaitGroup := sync.WaitGroup{}
 	fileWaitGroup.Add(numFiles)
-	done := make(chan bool, numFiles)
 	for i := 0; i < numFiles; i++ {
 		filename := "MiniMani" + strconv.Itoa(i) + ".json"
-		go writeToFile(filename, b, done, &fileWaitGroup)
+		go writeToFile(filename, b, &fileWaitGroup)
 	}
 	fileWaitGroup.Wait()
 
