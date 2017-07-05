@@ -28,8 +28,8 @@ func writeToFile(filename string, data []byte, wg *sync.WaitGroup) {
 
 func main() {
 	fmt.Println("Running trimmer")
+	fmt.Println("Reading Manifest.json")
 
-	fmt.Println("Reading Manifest...")
 	// Read and load the local manifest file
 	var manifest models.DestinyManifest
 	file, fileErr := ioutil.ReadFile("DestinyManifest.json")
@@ -39,55 +39,239 @@ func main() {
 	}
 	json.Unmarshal(file, &manifest)
 
-	// Manifest concurrent setup
 	maniWaitGroup := sync.WaitGroup{}
 	maniWaitGroup.Add(len(manifest.Manifest))
-	maniWaitGroup.Add(1)
 	for i, e := range manifest.Manifest {
-		a := i
 		switch i {
-		case 0:
+		case 0: // Activity
 			maniEntry := e.DestinyActivityDefinition
 			go func() {
 				fmt.Println("Building Activity Definitions")
 				defer maniWaitGroup.Done()
 
-				miniActDefMap := make(map[int64]models.MiniDestinyActivityDefinition)
+				miniActMap := make(map[int64]models.MiniDestinyActivityDefinition)
 				for _, e := range maniEntry {
-					var miniActDef models.MiniDestinyActivityDefinition
+					time.Sleep(10 * time.Millisecond)
+					var miniAct models.MiniDestinyActivityDefinition
 
-					miniActDef.ActivityName = e.ActivityName
-					miniActDef.ActivityDescription = e.ActivityDescription
-					miniActDef.Icon = e.Icon
-					miniActDef.ActivityLevel = e.ActivityLevel
-					miniActDef.DestinationHash = int64(e.DestinationHash)
-					miniActDef.PlaceHash = int64(e.PlaceHash)
-					miniActDef.ActivityTypeHash = int64(e.ActivityTypeHash)
-					miniActDef.Rewards = e.Rewards
-					miniActDef.Skulls = e.Skulls
+					miniAct.ActivityName = e.ActivityName
+					miniAct.ActivityDescription = e.ActivityDescription
+					miniAct.Icon = e.Icon
+					miniAct.ActivityLevel = e.ActivityLevel
+					miniAct.DestinationHash = int64(e.DestinationHash)
+					miniAct.PlaceHash = int64(e.PlaceHash)
+					miniAct.ActivityTypeHash = int64(e.ActivityTypeHash)
+					miniAct.Rewards = e.Rewards
+					miniAct.Skulls = e.Skulls
 
-					miniActDefMap[e.Hash] = miniActDef
+					miniActMap[e.Hash] = miniAct
 				}
-				fmt.Println("Done Activity Definitions. Count:", len(miniActDefMap))
+				fmt.Println("Done Activity Definitions, Count:", len(miniActMap))
 			}()
-		case 1:
-			fmt.Println("2")
+		case 1: // Activity Type
+			maniEntry := e.DestinyActivityTypeDefinition
+			go func() {
+				fmt.Println("Building Activity Type Definitions")
+				defer maniWaitGroup.Done()
+
+				miniActTypeMap := make(map[int64]models.MiniDestinyActivityTypeDefinition)
+				for _, e := range maniEntry {
+					time.Sleep(10 * time.Millisecond)
+					var miniActType models.MiniDestinyActivityTypeDefinition
+
+					miniActType.Identifier = e.Identifier
+					miniActType.ActivityTypeName = e.ActivityTypeName
+					miniActType.ActivityTypeDescription = e.ActivityTypeDescription
+					miniActType.Icon = e.Icon
+
+					miniActTypeMap[e.Hash] = miniActType
+				}
+				fmt.Println("Done Activity Type Definitions, Count:", len(miniActTypeMap))
+			}()
+		case 2: // Class
+			maniEntry := e.DestinyClassDefinition
+			go func() {
+				fmt.Println("Building Class Definitions")
+				defer maniWaitGroup.Done()
+
+				miniClassMap := make(map[int64]models.MiniDestinyClassDefinition)
+				for _, e := range maniEntry {
+					time.Sleep(10 * time.Millisecond)
+					var miniClass models.MiniDestinyClassDefinition
+
+					miniClass.ClassName = e.ClassName
+					miniClass.ClassType = e.ClassType
+
+					miniClassMap[e.Hash] = miniClass
+				}
+				fmt.Println("Done Class Definitions, Count:", len(miniClassMap))
+			}()
+		case 3: // Gender
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 4: // Inv Bucket
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 5: // Inv Item
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 6: // Progression
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 7: // Race
+			maniEntry := e.DestinyRaceDefinition
+			go func() {
+				fmt.Println("Building Race Definitions")
+				defer maniWaitGroup.Done()
+
+				miniRaceMap := make(map[int64]models.MiniDestinyRaceDefinition)
+				for _, e := range maniEntry {
+					time.Sleep(10 * time.Millisecond)
+					var miniRace models.MiniDestinyRaceDefinition
+
+					miniRace.RaceType = e.RaceType
+					miniRace.RaceName = e.RaceName
+					miniRace.RaceNameMale = e.RaceNameMale
+					miniRace.RaceNameFemale = e.RaceNameFemale
+					miniRace.RaceDescription = e.RaceDescription
+
+					miniRaceMap[e.Hash] = miniRace
+				}
+				fmt.Println("Done Race Definitions, Count:", len(miniRaceMap))
+			}()
+		case 8: // Talent Grid
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 9: // Unlock Flag
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 10: // Vendor
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 11: // Historical Stats
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 12: // Director Book
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 13: // Stat
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 14: // Sandbox Perk
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 15: // Destination
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 16: // Place
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 17: // Activity Bundle
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 18: // Stat Group
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 19: // Special Event
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 20: // Faction
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 21: // Vendor Category
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 22: // Enemy  Race
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 23: // Scripted Skill
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 24: // Triumph Set
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 25: // Item Category
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 26: // Reward Source
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 27: // Objective
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 28: // Damage Type
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 29: // Combatant
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 30: // Activity Category
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 31: // Record
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 32: // Record Book
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 33: // Bond
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 34: // Location
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 35: // Grimoire
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		case 36: // Grimoire Card
+			go func() {
+				defer maniWaitGroup.Done()
+			}()
+		default:
+			fmt.Println("Manifest Entry Miss", i)
+			maniWaitGroup.Done()
 		}
-		go func() {
-			defer maniWaitGroup.Done()
-			fmt.Println("go", a)
-		}()
 	}
 	maniWaitGroup.Wait()
 	fmt.Println("Done reading manifest")
 
 	// Initialize the output vars
-	// Convert the new manifest to .json and write the file
 	miniMani := make(map[string]interface{})
 	b, _ := json.MarshalIndent(miniMani, "", "    ")
 
 	fmt.Println("Writing files...")
-
 	numFiles := 5
 	fileWaitGroup := sync.WaitGroup{}
 	fileWaitGroup.Add(numFiles)
