@@ -191,8 +191,23 @@ func main() {
 				defer maniWaitGroup.Done()
 			}()
 		case 16: // Place
+			maniEntry := e.DestinyPlaceDefinition
 			go func() {
+				fmt.Println("Building Place Definitions")
 				defer maniWaitGroup.Done()
+
+				miniPlaceMap := make(map[int64]models.MiniDestinyPlaceDefinition)
+				for _, e := range maniEntry {
+					time.Sleep(10 * time.Millisecond)
+					var miniPlace models.MiniDestinyPlaceDefinition
+
+					miniPlace.PlaceName = e.PlaceName
+					miniPlace.PlaceDescription = e.PlaceDescription
+					miniPlace.Icon = e.Icon
+
+					miniPlaceMap[e.Hash] = miniPlace
+				}
+				fmt.Println("Done Place Definitions, Count:", len(miniPlaceMap))
 			}()
 		case 17: // Activity Bundle
 			go func() {
@@ -207,16 +222,47 @@ func main() {
 				defer maniWaitGroup.Done()
 			}()
 		case 20: // Faction
+			maniEntry := e.DestinyFactionDefinition
 			go func() {
+				fmt.Println("Building Faction Definitions")
 				defer maniWaitGroup.Done()
+
+				miniFactMap := make(map[int64]models.MiniDestinyFactionDefinition)
+				for _, e := range maniEntry {
+					time.Sleep(10 * time.Millisecond)
+					var miniFact models.MiniDestinyFactionDefinition
+
+					miniFact.FactionName = e.FactionName
+					miniFact.FactionDescription = e.FactionDescription
+					miniFact.FactionIcon = e.FactionIcon
+					miniFact.ProgressionHash = e.ProgressionHash
+
+					miniFactMap[e.Hash] = miniFact
+				}
+				fmt.Println("Done Faction Definitions, Count:", len(miniFactMap))
 			}()
 		case 21: // Vendor Category
 			go func() {
 				defer maniWaitGroup.Done()
 			}()
-		case 22: // Enemy  Race
+		case 22: // Enemy Race
+			maniEntry := e.DestinyEnemyRaceDefinition
 			go func() {
+				fmt.Println("Building Enemy Race Definitions")
 				defer maniWaitGroup.Done()
+
+				miniEnemyRaceMap := make(map[int64]models.MiniDestinyEnemyRaceDefinition)
+				for _, e := range maniEntry {
+					time.Sleep(10 * time.Millisecond)
+					var miniEnemyRace models.MiniDestinyEnemyRaceDefinition
+
+					miniEnemyRace.RaceName = e.RaceName
+					miniEnemyRace.Description = e.Description
+					miniEnemyRace.IconPath = e.IconPath
+
+					miniEnemyRaceMap[e.Hash] = miniEnemyRace
+				}
+				fmt.Println("Done Enemy Race Definitions, Count:", len(miniEnemyRaceMap))
 			}()
 		case 23: // Scripted Skill
 			go func() {
