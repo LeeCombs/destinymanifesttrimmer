@@ -6,9 +6,59 @@ import (
 	"github.com/leecombs/destinymanifesttrimmer/models"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	_ "os"
+	"strconv"
+	"time"
 )
 
+func writeToFile(filename string, data []byte, done chan bool) {
+	fmt.Println("Writing File:", filename)
+	time.Sleep(time.Duration(rand.Int31n(1000)) * time.Millisecond * 10)
+
+	err := ioutil.WriteFile(filename, data, 0644)
+	if err != nil {
+		log.Fatal("Write error:", err)
+	}
+
+	fmt.Println("Done writing file:", filename)
+	done <- true
+}
+
+func main() {
+	fmt.Println("Running trimmer")
+
+	fmt.Println("Reading Manifest...")
+	// Read and load the local manifest file
+	var manifest models.DestinyManifest
+	file, fileErr := ioutil.ReadFile("DestinyManifest.json")
+	if fileErr != nil {
+		log.Fatal("fileErr", fileErr)
+		return
+	}
+	json.Unmarshal(file, &manifest)
+
+	// Initialize the output vars
+	// Convert the new manifest to .json and write the file
+	miniMani := make(map[string]interface{})
+	b, _ := json.MarshalIndent(miniMani, "", "    ")
+
+	fmt.Println("Writing files...")
+
+	done := make(chan bool, 5)
+	for i := 0; i < 5; i++ {
+		filename := "MiniMani" + strconv.Itoa(i) + ".json"
+		go writeToFile(filename, b, done)
+	}
+	for i := 0; i < 5; i++ {
+		<-done
+	}
+
+	fmt.Println("Done writing files. Enter to continue")
+	fmt.Scanln()
+}
+
+/*
 func main() {
 	fmt.Println("Running trimmer")
 
@@ -215,17 +265,6 @@ func main() {
 	for _, e := range manifest.Manifest[11].DestinyHistoricalStatsDefinition {
 		var mdhsd models.MiniDestinyHistoricalStatsDefinition
 
-		/*
-			mdhsd.StatID = e.StatID
-			mdhsd.StatName = e.StatName
-			mdhsd.StatDescription = e.StatDescription
-			mdhsd.Group = e.Group
-			mdhsd.Category = e.Category
-			mdhsd.UnitType = e.UnitType
-			mdhsd.UnitLabel = e.UnitLabel
-			mdhsd.Weight = e.Weight
-			mdhsd.IconImage = e.IconImage
-		*/
 
 		mdhsdMap[e.StatID] = mdhsd
 	}
@@ -546,17 +585,6 @@ func main() {
 	miniMani["DestinyActivityCategoryDefinition"] = mdacdMap
 	fmt.Printf("Done: %d\n", len(mdacdMap))
 
-	// Continue Here
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
 	fmt.Printf("Record Definitions... ")
 	mdrecordMap := make(map[int64]models.MiniDestinyRecordDefinition)
 	for _, e := range manifest.Manifest[31].DestinyRecordDefinition {
@@ -653,3 +681,4 @@ func main() {
 	// b, _ := json.MarshalIndent(miniMani, "", "    ")
 	ioutil.WriteFile("MiniMani.json", b, 0644)
 }
+*/
