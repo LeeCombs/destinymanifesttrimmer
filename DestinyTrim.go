@@ -39,6 +39,48 @@ func main() {
 	}
 	json.Unmarshal(file, &manifest)
 
+	// Manifest concurrent setup
+	maniWaitGroup := sync.WaitGroup{}
+	maniWaitGroup.Add(len(manifest.Manifest))
+	maniWaitGroup.Add(1)
+	for i, e := range manifest.Manifest {
+		a := i
+		switch i {
+		case 0:
+			maniEntry := e.DestinyActivityDefinition
+			go func() {
+				fmt.Println("Building Activity Definitions")
+				defer maniWaitGroup.Done()
+
+				miniActDefMap := make(map[int64]models.MiniDestinyActivityDefinition)
+				for _, e := range maniEntry {
+					var miniActDef models.MiniDestinyActivityDefinition
+
+					miniActDef.ActivityName = e.ActivityName
+					miniActDef.ActivityDescription = e.ActivityDescription
+					miniActDef.Icon = e.Icon
+					miniActDef.ActivityLevel = e.ActivityLevel
+					miniActDef.DestinationHash = int64(e.DestinationHash)
+					miniActDef.PlaceHash = int64(e.PlaceHash)
+					miniActDef.ActivityTypeHash = int64(e.ActivityTypeHash)
+					miniActDef.Rewards = e.Rewards
+					miniActDef.Skulls = e.Skulls
+
+					miniActDefMap[e.Hash] = miniActDef
+				}
+				fmt.Println("Done Activity Definitions. Count:", len(miniActDefMap))
+			}()
+		case 1:
+			fmt.Println("2")
+		}
+		go func() {
+			defer maniWaitGroup.Done()
+			fmt.Println("go", a)
+		}()
+	}
+	maniWaitGroup.Wait()
+	fmt.Println("Done reading manifest")
+
 	// Initialize the output vars
 	// Convert the new manifest to .json and write the file
 	miniMani := make(map[string]interface{})

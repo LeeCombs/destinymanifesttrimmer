@@ -4,34 +4,36 @@ import (
 	"time"
 )
 
+type ActivityDefinition struct {
+	ActivityHash        int64         `json:"activityHash"`
+	ActivityName        string        `json:"activityName"`
+	ActivityDescription string        `json:"activityDescription"`
+	Icon                string        `json:"icon"`
+	ReleaseIcon         string        `json:"releaseIcon"`
+	ReleaseTime         int           `json:"releaseTime"`
+	ActivityLevel       int           `json:"activityLevel"`
+	CompletionFlagHash  int64         `json:"completionFlagHash"`
+	ActivityPower       float64       `json:"activityPower"`
+	MinParty            int           `json:"minParty"`
+	MaxParty            int           `json:"maxParty"`
+	MaxPlayers          int           `json:"maxPlayers"`
+	DestinationHash     int64         `json:"destinationHash"`
+	PlaceHash           int64         `json:"placeHash"`
+	ActivityTypeHash    int64         `json:"activityTypeHash"`
+	Tier                int           `json:"tier"`
+	PgcrImage           string        `json:"pgcrImage"`
+	Rewards             []interface{} `json:"rewards"`
+	Skulls              []interface{} `json:"skulls"`
+	IsPlaylist          bool          `json:"isPlaylist"`
+	IsMatchmade         bool          `json:"isMatchmade"`
+	Hash                int64         `json:"hash"`
+	Index               int           `json:"index"`
+}
+
 type DestinyManifest struct {
 	Manifest []struct {
 		// 0
-		DestinyActivityDefinition []struct {
-			ActivityHash        int64         `json:"activityHash"`
-			ActivityName        string        `json:"activityName"`
-			ActivityDescription string        `json:"activityDescription"`
-			Icon                string        `json:"icon"`
-			ReleaseIcon         string        `json:"releaseIcon"`
-			ReleaseTime         int           `json:"releaseTime"`
-			ActivityLevel       int           `json:"activityLevel"`
-			CompletionFlagHash  int64         `json:"completionFlagHash"`
-			ActivityPower       float64       `json:"activityPower"`
-			MinParty            int           `json:"minParty"`
-			MaxParty            int           `json:"maxParty"`
-			MaxPlayers          int           `json:"maxPlayers"`
-			DestinationHash     int64         `json:"destinationHash"`
-			PlaceHash           int64         `json:"placeHash"`
-			ActivityTypeHash    int64         `json:"activityTypeHash"`
-			Tier                int           `json:"tier"`
-			PgcrImage           string        `json:"pgcrImage"`
-			Rewards             []interface{} `json:"rewards"`
-			Skulls              []interface{} `json:"skulls"`
-			IsPlaylist          bool          `json:"isPlaylist"`
-			IsMatchmade         bool          `json:"isMatchmade"`
-			Hash                int64         `json:"hash"`
-			Index               int           `json:"index"`
-		} `json:"DestinyActivityDefinition"`
+		DestinyActivityDefinition []ActivityDefinition `json:"DestinyActivityDefinition"`
 
 		// 1
 		DestinyActivityTypeDefinition []struct {
