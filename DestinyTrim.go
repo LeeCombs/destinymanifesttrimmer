@@ -51,7 +51,6 @@ func main() {
 
 				miniActMap := make(map[int64]models.MiniDestinyActivityDefinition)
 				for _, e := range maniEntry {
-					time.Sleep(10 * time.Millisecond)
 					var miniAct models.MiniDestinyActivityDefinition
 
 					miniAct.ActivityName = e.ActivityName
@@ -76,7 +75,6 @@ func main() {
 
 				miniActTypeMap := make(map[int64]models.MiniDestinyActivityTypeDefinition)
 				for _, e := range maniEntry {
-					time.Sleep(10 * time.Millisecond)
 					var miniActType models.MiniDestinyActivityTypeDefinition
 
 					miniActType.Identifier = e.Identifier
@@ -96,7 +94,6 @@ func main() {
 
 				miniClassMap := make(map[int64]models.MiniDestinyClassDefinition)
 				for _, e := range maniEntry {
-					time.Sleep(10 * time.Millisecond)
 					var miniClass models.MiniDestinyClassDefinition
 
 					miniClass.ClassName = e.ClassName
@@ -107,16 +104,55 @@ func main() {
 				fmt.Println("Done Class Definitions, Count:", len(miniClassMap))
 			}()
 		case 3: // Gender
+			maniEntry := e.DestinyGenderDefinition
 			go func() {
+				fmt.Println("Building Gender Definitions")
 				defer maniWaitGroup.Done()
+
+				miniGenderMap := make(map[int64]models.MiniDestinyGenderDefinition)
+				for _, e := range maniEntry {
+					var miniGender models.MiniDestinyGenderDefinition
+
+					miniGender.GenderName = e.GenderName
+					miniGender.GenderType = e.GenderType
+
+					miniGenderMap[e.Hash] = miniGender
+				}
+				fmt.Println("Done Gender Definitions, Count:", len(miniGenderMap))
 			}()
 		case 4: // Inv Bucket
 			go func() {
 				defer maniWaitGroup.Done()
 			}()
 		case 5: // Inv Item
+			maniEntry := e.DestinyInventoryItemDefinition
 			go func() {
+				fmt.Println("Building Item Definitions")
 				defer maniWaitGroup.Done()
+
+				miniItemMap := make(map[int64]models.MiniDestinyInventoryItemDefinition)
+				for _, e := range maniEntry {
+					var miniItem models.MiniDestinyInventoryItemDefinition
+
+					miniItem.ItemName = e.ItemName
+					miniItem.ItemDescription = e.ItemDescription
+					miniItem.HasIcon = e.HasIcon
+					miniItem.Icon = e.Icon
+					miniItem.SecondaryIcon = e.SecondaryIcon
+					miniItem.TierType = e.TierType
+					miniItem.TierTypeName = e.TierTypeName
+					miniItem.ItemType = e.ItemType
+					miniItem.ItemTypeName = e.ItemTypeName
+					miniItem.SpecialItemType = e.SpecialItemType
+					miniItem.ClassType = e.ClassType
+					miniItem.BucketTypeHash = int64(e.BucketTypeHash)
+					miniItem.PrimaryBaseStatHash = int64(e.PrimaryBaseStatHash)
+					miniItem.Stats = e.Stats
+					miniItem.Exclusive = e.Exclusive
+
+					miniItemMap[e.Hash] = miniItem
+				}
+				fmt.Println("Done Item Definitions, Count:", len(miniItemMap))
 			}()
 		case 6: // Progression
 			go func() {
@@ -130,7 +166,6 @@ func main() {
 
 				miniRaceMap := make(map[int64]models.MiniDestinyRaceDefinition)
 				for _, e := range maniEntry {
-					time.Sleep(10 * time.Millisecond)
 					var miniRace models.MiniDestinyRaceDefinition
 
 					miniRace.RaceType = e.RaceType
@@ -171,7 +206,6 @@ func main() {
 
 				miniStatMap := make(map[int64]models.MiniDestinyStatDefinition)
 				for _, e := range maniEntry {
-					time.Sleep(10 * time.Millisecond)
 					var miniStat models.MiniDestinyStatDefinition
 
 					miniStat.StatName = e.StatName
@@ -198,7 +232,6 @@ func main() {
 
 				miniPlaceMap := make(map[int64]models.MiniDestinyPlaceDefinition)
 				for _, e := range maniEntry {
-					time.Sleep(10 * time.Millisecond)
 					var miniPlace models.MiniDestinyPlaceDefinition
 
 					miniPlace.PlaceName = e.PlaceName
@@ -229,7 +262,6 @@ func main() {
 
 				miniFactMap := make(map[int64]models.MiniDestinyFactionDefinition)
 				for _, e := range maniEntry {
-					time.Sleep(10 * time.Millisecond)
 					var miniFact models.MiniDestinyFactionDefinition
 
 					miniFact.FactionName = e.FactionName
@@ -253,7 +285,6 @@ func main() {
 
 				miniEnemyRaceMap := make(map[int64]models.MiniDestinyEnemyRaceDefinition)
 				for _, e := range maniEntry {
-					time.Sleep(10 * time.Millisecond)
 					var miniEnemyRace models.MiniDestinyEnemyRaceDefinition
 
 					miniEnemyRace.RaceName = e.RaceName
@@ -292,7 +323,6 @@ func main() {
 
 				miniDamTypeMap := make(map[int64]models.MiniDestinyDamageTypeDefinition)
 				for _, e := range maniEntry {
-					time.Sleep(10 * time.Millisecond)
 					var miniDamType models.MiniDestinyDamageTypeDefinition
 
 					miniDamType.DamageTypeName = e.DamageTypeName
@@ -313,7 +343,6 @@ func main() {
 
 				miniCombatantMap := make(map[int64]models.MiniDestinyCombatantDefinition)
 				for _, e := range maniEntry {
-					time.Sleep(10 * time.Millisecond)
 					var miniCombatant models.MiniDestinyCombatantDefinition
 
 					miniCombatant.Icon = e.Icon
