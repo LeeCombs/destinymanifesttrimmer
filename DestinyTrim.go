@@ -6,8 +6,11 @@ import (
 	"github.com/leecombs/destinymanifesttrimmer/models"
 	"io/ioutil"
 	"log"
-	"strconv"
 	"sync"
+)
+
+var (
+	MultiPrint bool
 )
 
 // Attempt to write a given file to disk, with goroutine support
@@ -26,6 +29,9 @@ func writeToFile(filename string, data []byte, wg *sync.WaitGroup) {
 func main() {
 	fmt.Println("Running trimmer")
 	fmt.Println("Reading Manifest.json...")
+
+	// TEMP
+	MultiPrint = true
 
 	// Read and load the local manifest file
 	var manifest models.DestinyManifest
@@ -404,20 +410,24 @@ func main() {
 	fmt.Println("Done reading manifest")
 	fmt.Println("Writing files...")
 
-	// Build the output .json file
+	// Build and write the full MiniMani .json file
 	b, _ := json.MarshalIndent(miniMani, "", "    ")
+	ioutil.WriteFile("MiniMani.json", b, 0644)
 
 	// Setup go routines to write files individually
 	// Really only done as practice
-	// TODO: Add support for writing individual definitions to their own files
-	numFiles := 1
-	fileWaitGroup := sync.WaitGroup{}
-	fileWaitGroup.Add(numFiles)
-	for i := 0; i < numFiles; i++ {
-		filename := "MiniMani" + strconv.Itoa(i) + ".json"
-		go writeToFile(filename, b, &fileWaitGroup)
+	if MultiPrint {
+		fmt.Println("Writing Mini Defs...")
+		numFiles := len(miniMani)
+		wg := sync.WaitGroup{}
+		wg.Add(numFiles)
+		for i, e := range miniMani {
+			b, _ := json.MarshalIndent(e, "", "    ")
+			go writeToFile("output/"+i+".json", b, &wg)
+		}
+		wg.Wait()
+		fmt.Println("Done Mini Defs")
 	}
-	fileWaitGroup.Wait()
 
 	fmt.Println("Done writing files. Enter to continue")
 	fmt.Scanln()
