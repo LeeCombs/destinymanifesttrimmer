@@ -38,3 +38,10 @@ Converted:
   ...
 }
 
+### TODO
+
+Retrieve, unpack, and load the current version of the Destiny Manifest, removing the need for a local file
+
+Be able to generate scaffolding based on the Manifest file (Think JSON-to-Go)
+
+Programatically map models from the original manifest to the minified version
